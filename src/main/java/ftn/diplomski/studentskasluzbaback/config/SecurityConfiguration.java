@@ -57,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().and()
                 // komunikacija izmedju klijenta i servera je stateless
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 

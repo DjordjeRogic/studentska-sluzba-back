@@ -1,12 +1,22 @@
 package ftn.diplomski.studentskasluzbaback.model;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @DiscriminatorValue("PROFESOR")
 public class Profesor extends User {
-    @Column(name="sifraProfesora")
-    private Integer sifraProfesora;
+    @Column(name="sifraProfesora", unique = true)
+    private String sifraProfesora;
+
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<SmerPredmet> predmeti;
+
+    public String getSifraProfesora() {
+        return sifraProfesora;
+    }
+
+    public void setSifraProfesora(String sifraProfesora) {
+        this.sifraProfesora = sifraProfesora;
+    }
 }

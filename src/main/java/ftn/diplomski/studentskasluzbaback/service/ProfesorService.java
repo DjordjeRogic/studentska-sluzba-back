@@ -1,0 +1,13 @@
+package ftn.diplomski.studentskasluzbaback.service;
+
+import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
+import ftn.diplomski.studentskasluzbaback.model.Profesor;
+
+import java.util.ArrayList;
+
+public interface ProfesorService {
+
+    ArrayList<ProfesorDTO> getAllProfesors();
+    ProfesorDTO saveNewProfesor(ProfesorDTO profesorDTO);
+    String checkNewProfesor(ProfesorDTO profesorDTO);
+}
