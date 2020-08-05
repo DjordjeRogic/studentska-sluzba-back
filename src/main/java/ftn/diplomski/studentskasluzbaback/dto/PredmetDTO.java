@@ -37,10 +37,6 @@ public class PredmetDTO {
         this.naziv = predmet.getNaziv();
         System.out.println(predmet.getKategorija().getFieldDescription());
         this.kategorija = predmet.getKategorija().getFieldDescription();
-        System.out.println(predmet.getBrojPredavanjaUGodini());
-        this.brojPredavanjaUGodini = predmet.getBrojPredavanjaUGodini();
-        System.out.println(predmet.getBrojESBPBodova());
-        this.brojESBPBodova = predmet.getBrojESBPBodova();
     }
 
     public Long getId() {

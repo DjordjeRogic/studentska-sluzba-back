@@ -30,4 +30,10 @@ public class PredmetController {
 
         return new ResponseEntity<>(predmetService.saveNewPredmet(predmetDTO), HttpStatus.OK);
     }
+
+    @GetMapping(value="/nePripadaSmeru/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPredmetiKojiNePripadajuSmeru(@PathVariable("id")Long id) {
+        System.out.println("Predmeti za dodavanje na smer");
+        return new ResponseEntity<>(predmetService.getPredmetiKojiNePripadajuSmeru(id), HttpStatus.OK);
+    }
 }

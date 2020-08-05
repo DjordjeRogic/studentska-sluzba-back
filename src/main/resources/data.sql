@@ -11,3 +11,9 @@ insert into user (name, surname, email, password, enabled, type, role,sifra_prof
 insert into user (name, surname, email, password, enabled, type, role,broj_indexa,godina_upisa,semestar) values ('Client1', 'Client ', 'client@gmail.com', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra56-2016','2020-06-05',1);
 
 insert into user_roles (user_id, role_id) values (1, 1);
+
+insert into smer (naziv, skracenica, trajanjeusemestrima, obrazovno_polje, naziv_diplome) values ('Racunarstvo i automatika', 'RA', 8, 0,'Diplomiranji Inzenjer Elektrotehnike i Racunarstva');
+insert into predmet(naziv, kategorija) value ('Matematicka analiza 1',0);
+insert into predmet(naziv, kategorija) value ('Algebra',0);
+
+insert into smer_predmet(sifra_studijskog_programa, broj_predavanjaugodini, brojesbpbodova, semestar, predmet_id, profesor_id, smer_id) values ('E2123',24,9,1,1,2,1);

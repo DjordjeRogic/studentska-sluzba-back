@@ -19,12 +19,6 @@ public class Predmet {
     @Column(name="kategorija")
     private KategorijaPredmeta kategorija;
 
-    @Column(name="brojPredavanjaUGodini")
-    private Integer brojPredavanjaUGodini;
-
-    @Column(name="brojESBPBodova")
-    private Integer brojESBPBodova;
-
     @OneToMany(mappedBy = "predmet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<SmerPredmet> smerovi;
 
@@ -58,19 +52,4 @@ public class Predmet {
         this.kategorija = kategorija;
     }
 
-    public Integer getBrojPredavanjaUGodini() {
-        return brojPredavanjaUGodini;
-    }
-
-    public void setBrojPredavanjaUGodini(Integer brojPredavanjaUGodini) {
-        this.brojPredavanjaUGodini = brojPredavanjaUGodini;
-    }
-
-    public Integer getBrojESBPBodova() {
-        return brojESBPBodova;
-    }
-
-    public void setBrojESBPBodova(Integer brojESBPBodova) {
-        this.brojESBPBodova = brojESBPBodova;
-    }
 }

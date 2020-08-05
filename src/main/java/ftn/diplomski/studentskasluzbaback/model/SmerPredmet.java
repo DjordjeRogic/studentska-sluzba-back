@@ -10,7 +10,16 @@ public class SmerPredmet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="sifraStudijskogPrograma",unique = true)
+    private String sifraStudijskogPrograma;
 
+    @Column(name="brojPredavanjaUGodini")
+    private Integer brojPredavanjaUGodini;
+
+    @Column(name="brojESBPBodova")
+    private Integer brojESBPBodova;
+
+    @Column(name="semestar")
     private Integer semestar;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -60,5 +69,29 @@ public class SmerPredmet {
 
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
+    }
+
+    public String getSifraStudijskogPrograma() {
+        return sifraStudijskogPrograma;
+    }
+
+    public void setSifraStudijskogPrograma(String sifraStudijskogPrograma) {
+        this.sifraStudijskogPrograma = sifraStudijskogPrograma;
+    }
+
+    public Integer getBrojPredavanjaUGodini() {
+        return brojPredavanjaUGodini;
+    }
+
+    public void setBrojPredavanjaUGodini(Integer brojPredavanjaUGodini) {
+        this.brojPredavanjaUGodini = brojPredavanjaUGodini;
+    }
+
+    public Integer getBrojESBPBodova() {
+        return brojESBPBodova;
+    }
+
+    public void setBrojESBPBodova(Integer brojESBPBodova) {
+        this.brojESBPBodova = brojESBPBodova;
     }
 }

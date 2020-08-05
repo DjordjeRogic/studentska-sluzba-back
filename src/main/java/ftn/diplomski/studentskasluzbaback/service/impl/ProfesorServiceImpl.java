@@ -79,6 +79,11 @@ public class ProfesorServiceImpl implements ProfesorService {
         return null;
     }
 
+    @Override
+    public Profesor findProfesor(Long id) {
+        return profesorRepository.findById(id).orElse(null);
+    }
+
 
     private String generateRandomPassword(){
         int length = 15;
