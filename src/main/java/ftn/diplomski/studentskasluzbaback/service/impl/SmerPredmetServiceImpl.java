@@ -1,10 +1,8 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
+import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
-import ftn.diplomski.studentskasluzbaback.model.Predmet;
-import ftn.diplomski.studentskasluzbaback.model.Profesor;
-import ftn.diplomski.studentskasluzbaback.model.Smer;
-import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
+import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.SmerPredmetRepository;
 import ftn.diplomski.studentskasluzbaback.service.PredmetService;
 import ftn.diplomski.studentskasluzbaback.service.ProfesorService;
@@ -12,6 +10,9 @@ import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import ftn.diplomski.studentskasluzbaback.service.SmerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Service
 public class SmerPredmetServiceImpl implements SmerPredmetService {
@@ -100,5 +101,34 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         }
 
         return null;
+    }
+
+    @Override
+    public SmerPredmetDTO getOne(Long id) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        return new SmerPredmetDTO(smerPredmet);
+    }
+
+    @Override
+    public ArrayList<IspitDTO> getIspiti(Long id) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        ArrayList<IspitDTO> ispitDTOS = new ArrayList<>();
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+        if(date.getMonthValue() > 10){ //ako je posle oktobra to je sledeca godina
+            year = year+1;
+        }
+
+        for(Ispit ispit :smerPredmet.getIspiti()){
+            if(ispit.getDatum().getYear() == year ){
+                ispitDTOS.add(new IspitDTO(ispit));
+            }
+        }
+        return ispitDTOS;
+    }
+
+    @Override
+    public SmerPredmet findOne(Long id) {
+        return smerPredmetRepository.getOne(id);
     }
 }

@@ -38,4 +38,25 @@ public class ProfesorController {
 
         return new ResponseEntity<>(profesorService.saveNewProfesor(profesorDTO), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteProfesor(@PathVariable("id")Long id) {
+        System.out.println("Delete profesor");
+        if(profesorService.proveriDaLiProfesorMozeBitiObrisan(id) != null){
+            return new ResponseEntity<>(profesorService.proveriDaLiProfesorMozeBitiObrisan(id), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(profesorService.deleteProfesor(id), HttpStatus.OK);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateProfesor(@RequestBody ProfesorDTO profesorDTO) {
+        System.out.println("Add Profesor");
+
+        String checkMessage = profesorService.checkNewProfesor(profesorDTO);
+        if(checkMessage != null){
+            return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(profesorService.updateProfesor(profesorDTO), HttpStatus.OK);
+    }
 }

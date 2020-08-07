@@ -12,4 +12,8 @@ public interface ProfesorService {
     ProfesorDTO saveNewProfesor(ProfesorDTO profesorDTO);
     String checkNewProfesor(ProfesorDTO profesorDTO);
     Profesor findProfesor(Long id);
+
+    ProfesorDTO deleteProfesor(Long id);
+    String proveriDaLiProfesorMozeBitiObrisan(Long id);
+    ProfesorDTO updateProfesor(ProfesorDTO profesorDTO);
 }

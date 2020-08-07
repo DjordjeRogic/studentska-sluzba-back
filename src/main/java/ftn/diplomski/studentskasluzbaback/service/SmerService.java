@@ -3,7 +3,9 @@ package ftn.diplomski.studentskasluzbaback.service;
 import ftn.diplomski.studentskasluzbaback.dto.PredmetDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
+import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
 import ftn.diplomski.studentskasluzbaback.model.Smer;
+import ftn.diplomski.studentskasluzbaback.model.Student;
 
 import java.util.ArrayList;
 

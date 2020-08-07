@@ -54,8 +54,8 @@ public class ProfesorServiceImpl implements ProfesorService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(strength, new SecureRandom());
         profesor.setPassword(bCryptPasswordEncoder.encode(password));
 
-        profesorRepository.save(profesor);
-
+        Profesor saved = profesorRepository.save(profesor);
+        profesorDTO.setId(saved.getId());
         //TODO
         // Potencijalno slanje emaila profesoru koji je registrovan da zna da moze da se uloguje.
         // Takodje mozda ne bi bilo lose da mu se posalje sifra koja je generisana da ne mora da kontaktira admina
@@ -82,6 +82,37 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Override
     public Profesor findProfesor(Long id) {
         return profesorRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public ProfesorDTO deleteProfesor(Long id) {
+        Profesor profesor = profesorRepository.findById(id).orElse(null);
+        profesorRepository.delete(profesor);
+        return new ProfesorDTO(profesor);
+    }
+
+    @Override
+    public String proveriDaLiProfesorMozeBitiObrisan(Long id) {
+        Profesor profesor = profesorRepository.findById(id).orElse(null);
+
+        if(profesor.getPredmeti() != null) {
+            if (profesor.getPredmeti().size() != 0) {
+                return "Profesor koji predaje ne moze biti obrisan!";
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public ProfesorDTO updateProfesor(ProfesorDTO profesorDTO) {
+        Profesor profesor = findProfesor(profesorDTO.getId());
+
+        profesor.setEmail(profesorDTO.getEmail());
+        profesor.setSifraProfesora(profesorDTO.getSifraProfesora());
+        profesor.setName(profesorDTO.getName());
+        profesor.setSurname(profesorDTO.getSurname());
+
+        return profesorDTO;
     }
 
 

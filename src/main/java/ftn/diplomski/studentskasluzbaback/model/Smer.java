@@ -31,6 +31,8 @@ public class Smer {
     @OneToMany(mappedBy = "smer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<SmerPredmet> predmeti;
 
+    @OneToMany(mappedBy = "smer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Student> student;
 
     public Smer() {
     }

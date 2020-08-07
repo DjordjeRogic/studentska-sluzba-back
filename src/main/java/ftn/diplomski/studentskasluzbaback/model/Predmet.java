@@ -22,8 +22,6 @@ public class Predmet {
     @OneToMany(mappedBy = "predmet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<SmerPredmet> smerovi;
 
-
-
     public Predmet() {
     }
 

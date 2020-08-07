@@ -19,4 +19,12 @@ public class Profesor extends User {
     public void setSifraProfesora(String sifraProfesora) {
         this.sifraProfesora = sifraProfesora;
     }
+
+    public Set<SmerPredmet> getPredmeti() {
+        return predmeti;
+    }
+
+    public void setPredmeti(Set<SmerPredmet> predmeti) {
+        this.predmeti = predmeti;
+    }
 }

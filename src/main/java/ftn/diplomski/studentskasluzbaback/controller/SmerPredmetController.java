@@ -31,4 +31,15 @@ public class SmerPredmetController {
         return new ResponseEntity<>(smerPredmetDTO1, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getProgram(@PathVariable("id")Long id) {
+        System.out.println("Studijski program");
+        return new ResponseEntity<>(smerPredmetService.getOne(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/ispit",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getIspitiStudjiskogPrograma(@PathVariable("id")Long id) {
+        System.out.println("Studijski program ispiti");
+        return new ResponseEntity<>(smerPredmetService.getIspiti(id), HttpStatus.OK);
+    }
 }
