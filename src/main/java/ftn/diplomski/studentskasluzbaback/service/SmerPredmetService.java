@@ -2,10 +2,7 @@ package ftn.diplomski.studentskasluzbaback.service;
 
 import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
-import ftn.diplomski.studentskasluzbaback.model.Predmet;
-import ftn.diplomski.studentskasluzbaback.model.Profesor;
-import ftn.diplomski.studentskasluzbaback.model.Smer;
-import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
+import ftn.diplomski.studentskasluzbaback.model.*;
 
 import java.util.ArrayList;
 
@@ -17,4 +14,5 @@ public interface SmerPredmetService {
     SmerPredmetDTO getOne(Long id);
     ArrayList<IspitDTO> getIspiti(Long id);
     SmerPredmet findOne(Long id);
+    ArrayList<Ispit> getTrenutniIspitiStudijskogProgrma(Long id_smerpredmeta);
 }

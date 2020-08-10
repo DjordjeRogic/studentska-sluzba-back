@@ -1,8 +1,10 @@
 package ftn.diplomski.studentskasluzbaback.service;
 
+import ftn.diplomski.studentskasluzbaback.dto.IspitStudentDTO;
 import ftn.diplomski.studentskasluzbaback.dto.PredmetDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
+import ftn.diplomski.studentskasluzbaback.model.Ispit;
 import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
 import ftn.diplomski.studentskasluzbaback.model.Smer;
 import ftn.diplomski.studentskasluzbaback.model.Student;
@@ -18,4 +20,7 @@ public interface SmerService {
     SmerDTO getSmer(Long id);
     Smer findSmer(Long id);
     Integer getBrojESBPzaSemestar(Long id_smera,Integer brojSemestra);
+    ArrayList<Ispit> getTrenutneIspiteSmera(Long id_smera);
+
+
 }

@@ -56,4 +56,12 @@ public class SmerController {
         ArrayList<SmerPredmetDTO> ret = smerService.getPredmetiOdSmera(id);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
+
+
+    @GetMapping(value = "/{id}/predmeti/trenutniIspiti",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTrenutniIspitiSmera(@PathVariable("id")Long id) {
+        System.out.println("Trenutni isoiti od smera: "+id);
+        ArrayList<SmerPredmetDTO> ret = smerService.getPredmetiOdSmera(id);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
 }

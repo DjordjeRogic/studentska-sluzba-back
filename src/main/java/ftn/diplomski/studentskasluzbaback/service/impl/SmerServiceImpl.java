@@ -1,9 +1,6 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
-import ftn.diplomski.studentskasluzbaback.dto.PredmetDTO;
-import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
-import ftn.diplomski.studentskasluzbaback.dto.SmerDTO;
-import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
+import ftn.diplomski.studentskasluzbaback.dto.*;
 import ftn.diplomski.studentskasluzbaback.enumeration.ObrazovnoPolje;
 import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.SmerRepository;
@@ -19,6 +16,9 @@ public class SmerServiceImpl implements SmerService {
 
     @Autowired
     private SmerRepository smerRepository;
+
+    @Autowired
+    private SmerPredmetServiceImpl smerPredmetService;
 
     @Override
     public ArrayList<SmerDTO> getAllSmerovi() {
@@ -92,5 +92,20 @@ public class SmerServiceImpl implements SmerService {
         }
 
         return rez;
+    }
+
+    @Override
+    public ArrayList<Ispit> getTrenutneIspiteSmera(Long id_smera) {
+        Smer smer = smerRepository.getOne(id_smera);
+        ArrayList<Ispit> ret = new ArrayList<>();
+
+        for(SmerPredmet smerPredmet : smer.getPredmeti()){
+            ArrayList<Ispit> ispiti = smerPredmetService.getTrenutniIspitiStudijskogProgrma(smerPredmet.getId());
+            for(Ispit ispit:ispiti){
+                ret.add(ispit);
+            }
+        }
+
+        return ret;
     }
 }

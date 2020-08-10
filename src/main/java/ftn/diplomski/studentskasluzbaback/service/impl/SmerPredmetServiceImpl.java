@@ -2,6 +2,7 @@ package ftn.diplomski.studentskasluzbaback.service.impl;
 
 import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
+import ftn.diplomski.studentskasluzbaback.enumeration.IspitniRok;
 import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.SmerPredmetRepository;
 import ftn.diplomski.studentskasluzbaback.service.PredmetService;
@@ -28,6 +29,9 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
     @Autowired
     private PredmetService predmetService;
+
+    @Autowired
+    private SkolskaGodinaServiceImpl skolskaGodinaService;
 
     @Override
     public SmerPredmet poveziProfesoraSaSmeromIpredmetom(Profesor profesor, Smer smer, Predmet predmet, Integer smestar) {
@@ -130,5 +134,72 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
     @Override
     public SmerPredmet findOne(Long id) {
         return smerPredmetRepository.getOne(id);
+    }
+
+    @Override
+    public ArrayList<Ispit> getTrenutniIspitiStudijskogProgrma(Long id_smerpredmeta) {
+        SmerPredmet smerPredmet = findOne(id_smerpredmeta);
+        SkolskaGodina skolskaGodina = skolskaGodinaService.getTrenutnaSkolskaGodina();
+
+        int month = LocalDate.now().getMonthValue();
+        LocalDate minDate = LocalDate.now().plusDays(20);
+
+
+        ArrayList<Ispit> ispits = new ArrayList<>();
+
+        for(Ispit ispit: smerPredmet.getIspiti()){
+            if(ispit.getSkolskaGodina().equals(skolskaGodina)){
+//                if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate)){
+//                    ispits.add(ispit);
+//                }
+
+                //JANUARSKO-FEBRUARSKI
+                if(month < 3){
+                    if(ispit.getRok().equals(IspitniRok.JAN) || ispit.getRok().equals(IspitniRok.FEB)){
+                        ispits.add(ispit);
+                    }
+                }
+                //APRIL
+                if(month == 4){
+                    if(ispit.getRok().equals(IspitniRok.APR)){
+                        ispits.add(ispit);
+                    }
+                }
+                //JUN-JUL
+                if(month > 5 && month<8 ){
+                    if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
+                        ispits.add(ispit);
+                    }
+                }
+                //AVGUST
+                if(month > 7 && month<9 ){
+                    if(ispit.getRok().equals(IspitniRok.AVG)){
+                        ispits.add(ispit);
+                    }
+                }
+                //SEPTEMBAR
+                if(month > 7 && month<10 ){
+                    if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
+                        ispits.add(ispit);
+                    }
+                }
+                //OKTOBAR
+                if(month > 8 ){
+                    if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
+                        ispits.add(ispit);
+                    }
+                }
+
+                //DODATNI ROKOVI
+                if(ispit.getRok().equals(IspitniRok.DO)){
+                    if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate)){
+                        ispits.add(ispit);
+                    }
+                }
+
+
+            }
+        }
+        return ispits;
     }
 }

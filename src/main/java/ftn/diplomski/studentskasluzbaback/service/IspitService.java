@@ -10,4 +10,5 @@ public interface IspitService {
 
     IspitDTO saveNewIspit(IspitDTO ispitDTO);
     String checkNewIspit(IspitDTO ispitDTO);
+    Ispit getOne(Long id);
 }

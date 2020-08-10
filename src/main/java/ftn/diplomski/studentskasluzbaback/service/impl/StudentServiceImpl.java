@@ -1,20 +1,21 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
+import ftn.diplomski.studentskasluzbaback.dto.IspitStudentDTO;
 import ftn.diplomski.studentskasluzbaback.dto.StudentDTO;
-import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
-import ftn.diplomski.studentskasluzbaback.model.Smer;
-import ftn.diplomski.studentskasluzbaback.model.Student;
+import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.SmerRepository;
 import ftn.diplomski.studentskasluzbaback.repository.StudentRepository;
-import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
-import ftn.diplomski.studentskasluzbaback.service.SmerService;
-import ftn.diplomski.studentskasluzbaback.service.StudentService;
+import ftn.diplomski.studentskasluzbaback.service.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private SkolskaGodinaService skolskaGodinaService;
+
+    @Autowired
+    private IspitService ispitService;
+
+    @Autowired
+    private OcenaService ocenaService;
+
+    @Autowired
+    private SmerPredmetService smerPredmetService;
 
     @Override
     public ArrayList<StudentDTO> getAllStudents() {
@@ -88,6 +98,34 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public String checkPrijavaIspita(IspitStudentDTO ispitStudentDTO) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Student student = studentRepository.findByEmail(email);
+        Ispit ispit = ispitService.getOne(ispitStudentDTO.getId());
+
+        if(student.getPrijavljeniIspiti().contains(ispit)){
+            return "Ispit je vec prijavljen!";
+        }
+
+        return null;
+    }
+
+    @Override
+    public ArrayList<IspitStudentDTO> getPrijavljeniIsptiOdStudenta() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Student student = studentRepository.findByEmail(email);
+        ArrayList<IspitStudentDTO> ret = new ArrayList<>();
+        for(Ispit ispit:student.getPrijavljeniIspiti()){
+            if(ispit.getDatum().isAfter(LocalDate.now())){
+                ret.add(new IspitStudentDTO(ispit));
+            }
+        }
+        return ret;
+    }
+
+    @Override
     public Student findStudent(Long id) {
         return null;
     }
@@ -95,6 +133,57 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ArrayList<Student> getStudentePoSmeruiGodini(Smer smer, SkolskaGodina skolskaGodina) {
         return (ArrayList<Student>) studentRepository.findAllBySmerAndGodinaUpisa(smer,skolskaGodina);
+    }
+
+    @Override
+    public ArrayList<IspitStudentDTO> getTrenutneIspiteOdUlogvanog() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Student student = studentRepository.findByEmail(email);
+
+        ArrayList<Ispit> ispiti = smerService.getTrenutneIspiteSmera(student.getSmer().getId());
+        ArrayList<IspitStudentDTO> ret = new ArrayList<>();
+
+
+
+        for(Ispit ispit: ispiti){
+            SmerPredmet smerPredmet =smerPredmetService.findOne(ispit.getSmerPredmet().getId());
+            Ocena ocena = ocenaService.pronadjiOcenuOdStudentaZaPredmet(student,smerPredmet);
+            if(ocena != null){
+                if(ocena.getDatumPolaganja() != null){
+                    //taj ispit je vec polozen
+                    continue;
+                }
+            }
+            if(student.getPrijavljeniIspiti().contains(ispit)){
+                continue;
+            }
+            ret.add(new IspitStudentDTO(ispit));
+        }
+
+        return ret;
+    }
+
+    @Override
+    public IspitStudentDTO prijaviIspit(IspitStudentDTO ispitStudentDTO) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Student student = studentRepository.findByEmail(email);
+        Ispit ispit = ispitService.getOne(ispitStudentDTO.getId());
+        student.getPrijavljeniIspiti().add(ispit);
+        studentRepository.save(student);
+        return ispitStudentDTO;
+    }
+
+    @Override
+    public IspitStudentDTO odjaviIspit(IspitStudentDTO ispitStudentDTO) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Student student = studentRepository.findByEmail(email);
+        Ispit ispit = ispitService.getOne(ispitStudentDTO.getId());
+        student.getPrijavljeniIspiti().remove(ispit);
+        studentRepository.save(student);
+        return ispitStudentDTO;
     }
 
 

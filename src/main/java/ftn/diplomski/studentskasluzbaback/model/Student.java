@@ -2,6 +2,7 @@ package ftn.diplomski.studentskasluzbaback.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,9 @@ public class Student extends User {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Smer smer;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Ispit> prijavljeniIspiti;
 
     public Student() {
     }
@@ -64,6 +68,14 @@ public class Student extends User {
 
     public void setSmer(Smer smer) {
         this.smer = smer;
+    }
+
+    public Set<Ispit> getPrijavljeniIspiti() {
+        return prijavljeniIspiti;
+    }
+
+    public void setPrijavljeniIspiti(Set<Ispit> prijavljeniIspiti) {
+        this.prijavljeniIspiti = prijavljeniIspiti;
     }
 }
 

@@ -1,13 +1,10 @@
 package ftn.diplomski.studentskasluzbaback.dto;
 
-import ftn.diplomski.studentskasluzbaback.enumeration.IspitniRok;
 import ftn.diplomski.studentskasluzbaback.model.Ispit;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-public class IspitDTO {
+public class IspitStudentDTO {
 
     private Long id;
 
@@ -17,35 +14,39 @@ public class IspitDTO {
 
     private String mestoOdrzavanja;
 
-    private Long programId;
+    private String nazivPredmeta;
+
+    private String sifra;
 
     private String vremeOdrzavanja;
 
-    public IspitDTO() {
-    }
-
-
-    public IspitDTO(Long id, String rok, String datum, String mestoOdrzavanja, Long programId, String vremeOdrzavanja) {
-        this.id = id;
-        this.rok = rok;
-        this.datum = datum;
-        this.mestoOdrzavanja = mestoOdrzavanja;
-        this.programId = programId;
-        this.vremeOdrzavanja=vremeOdrzavanja;
-    }
-
-    public IspitDTO(Ispit ispit) {
+    public IspitStudentDTO(Ispit ispit) {
         this.id = ispit.getId();
         this.rok = ispit.getRok().getFieldDescription();
         this.datum = ispit.getDatum().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.mestoOdrzavanja = ispit.getMestoOdrzavanja();
-        this.programId = ispit.getSmerPredmet().getId();
+        this.nazivPredmeta = ispit.getSmerPredmet().getPredmet().getNaziv();
+        this.sifra = ispit.getSmerPredmet().getSifraStudijskogPrograma();
         if (ispit.getVremeOdrzavanja() != null) {
             this.vremeOdrzavanja = ispit.getVremeOdrzavanja().format(DateTimeFormatter.ofPattern("HH:mm"));
         }else{
             this.vremeOdrzavanja="";
         }
     }
+
+    public IspitStudentDTO(Long id, String rok, String datum, String mestoOdrzavanja, String nazivPredmeta, String sifra, String vremeOdrzavanja) {
+        this.id = id;
+        this.rok = rok;
+        this.datum = datum;
+        this.mestoOdrzavanja = mestoOdrzavanja;
+        this.nazivPredmeta = nazivPredmeta;
+        this.sifra = sifra;
+        this.vremeOdrzavanja = vremeOdrzavanja;
+    }
+
+    public IspitStudentDTO() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -78,12 +79,20 @@ public class IspitDTO {
         this.mestoOdrzavanja = mestoOdrzavanja;
     }
 
-    public Long getProgramId() {
-        return programId;
+    public String getNazivPredmeta() {
+        return nazivPredmeta;
     }
 
-    public void setProgramId(Long programId) {
-        this.programId = programId;
+    public void setNazivPredmeta(String nazivPredmeta) {
+        this.nazivPredmeta = nazivPredmeta;
+    }
+
+    public String getSifra() {
+        return sifra;
+    }
+
+    public void setSifra(String sifra) {
+        this.sifra = sifra;
     }
 
     public String getVremeOdrzavanja() {

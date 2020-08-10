@@ -91,4 +91,9 @@ public class IspitServiceImpl implements IspitService {
         }
         return null;
     }
+
+    @Override
+    public Ispit getOne(Long id) {
+        return ispitRepository.getOne(id);
+    }
 }

@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Ispit {
@@ -32,6 +34,9 @@ public class Ispit {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private SmerPredmet smerPredmet;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Student> studentiKojiSuPrijavili;
 
     public Ispit() {
     }

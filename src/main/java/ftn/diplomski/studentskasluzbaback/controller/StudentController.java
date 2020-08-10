@@ -1,7 +1,6 @@
 package ftn.diplomski.studentskasluzbaback.controller;
 
-import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
-import ftn.diplomski.studentskasluzbaback.dto.StudentDTO;
+import ftn.diplomski.studentskasluzbaback.dto.*;
 import ftn.diplomski.studentskasluzbaback.service.impl.ProfesorServiceImpl;
 import ftn.diplomski.studentskasluzbaback.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 
 @RestController
@@ -34,5 +35,37 @@ public class StudentController {
         }
 
         return new ResponseEntity<>(studentService.saveNewStudent(studentDTO), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/ulogovan/predmeti/trenutniIspiti",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTrenutniIspitiSmera() {
+        System.out.println("Trenutni isoiti od smera:");
+        ArrayList<IspitStudentDTO> ret = studentService.getTrenutneIspiteOdUlogvanog();
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+    @GetMapping(value = "/ispit/prijavljen",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPrijavljeniIspiti() {
+        System.out.println("Trenutni isoiti od smera:");
+        ArrayList<IspitStudentDTO> ret = studentService.getPrijavljeniIsptiOdStudenta();
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = "/ispit/prijavi",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> prijaviIspit(@RequestBody PrijavaIspitaDTO prijavaIspitaDTO) {
+        System.out.println("Prijavi");
+        for(IspitStudentDTO ispitStudentDTO :prijavaIspitaDTO.getIspiti()) {
+            studentService.prijaviIspit(ispitStudentDTO);
+        }
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/ispit/odjavi",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> odjaviIspit(@RequestBody PrijavaIspitaDTO prijavaIspitaDTO) {
+        System.out.println("Odjavi");
+        for(IspitStudentDTO ispitStudentDTO :prijavaIspitaDTO.getIspiti()) {
+            studentService.odjaviIspit(ispitStudentDTO);
+        }
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 }
