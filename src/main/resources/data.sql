@@ -19,5 +19,9 @@ insert into smer_predmet(sifra_studijskog_programa, broj_predavanjaugodini, broj
 
 insert into skolska_godina(pocetak_godine,kraj_godine) value('2019-10-01','2020-09-30');
 
-insert into ispit(rok,datum,mesto_odrzavanja,skolska_godina_id,smer_predmet_id) values (5,'2020-08-25','A1',1,1);
+insert into ispit(rok,datum,mesto_odrzavanja,skolska_godina_id,smer_predmet_id,uneseni_rezultati) values (5,'2020-08-10','A1',1,1,false);
 insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id) values ('Client1', 'Client ', 'client@gmail.com', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra56-2016',1,1);
+
+insert into user_prijavljeni_ispiti(student_id,prijavljeni_ispiti_id) values (3,1);
+
+insert into ispit_studenti_koji_su_prijavili(ispit_id,studenti_koji_su_prijavili_id) values (1,3);

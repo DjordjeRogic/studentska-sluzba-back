@@ -59,4 +59,16 @@ public class ProfesorController {
 
         return new ResponseEntity<>(profesorService.updateProfesor(profesorDTO), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/ulogovan/predmet/ispit",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getIspitiOdProfesora() {
+        System.out.println("Ispsiti profesor");
+        return new ResponseEntity<>(profesorService.getIspiteKodUlogovanogProfesora(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/ulogovan/predmet/ispit/zaUnosRezultata",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getZavrseniIspitiOdProfesora() {
+        System.out.println("Ispsiti profesor");
+        return new ResponseEntity<>(profesorService.getIspitiOdProfesoraZaUnosOcene(), HttpStatus.OK);
+    }
 }

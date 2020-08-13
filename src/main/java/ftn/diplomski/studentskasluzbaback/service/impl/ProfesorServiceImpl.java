@@ -1,16 +1,26 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
+import ftn.diplomski.studentskasluzbaback.dto.IspitProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
+import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
+import ftn.diplomski.studentskasluzbaback.model.Ispit;
 import ftn.diplomski.studentskasluzbaback.model.Profesor;
+import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
+import ftn.diplomski.studentskasluzbaback.model.Student;
 import ftn.diplomski.studentskasluzbaback.repository.ProfesorRepository;
 import ftn.diplomski.studentskasluzbaback.service.ProfesorService;
+import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.security.SecureRandom;
+import java.sql.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +29,9 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Autowired
     private ProfesorRepository profesorRepository;
+
+    @Autowired
+    private SmerPredmetService smerPredmetService;
 
     @Override
     public ArrayList<ProfesorDTO> getAllProfesors() {
@@ -113,6 +126,55 @@ public class ProfesorServiceImpl implements ProfesorService {
         profesor.setSurname(profesorDTO.getSurname());
 
         return profesorDTO;
+    }
+
+    @Override
+    public ArrayList<SmerPredmetDTO> getStudijskeProgrameKojeUlogovanProfesorPredaje() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Profesor profesor = profesorRepository.findProfesorByEmail(email);
+        ArrayList<SmerPredmetDTO> smerPredmetDTOS = new ArrayList<>();
+
+        for(SmerPredmet smerPredmet:profesor.getPredmeti()){
+            smerPredmetDTOS.add(new SmerPredmetDTO(smerPredmet));
+        }
+        return smerPredmetDTOS;
+    }
+
+    @Override
+    public ArrayList<IspitProfesorDTO> getIspiteKodUlogovanogProfesora() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Profesor profesor = profesorRepository.findProfesorByEmail(email);
+        ArrayList<IspitProfesorDTO> ispiti = new ArrayList<>();
+
+        for(SmerPredmet smerPredmet:profesor.getPredmeti()){
+            for(Ispit ispit:smerPredmet.getIspiti()) {
+                ispiti.add(new IspitProfesorDTO(ispit));
+            }
+        }
+        return ispiti;
+    }
+
+    @Override
+    public ArrayList<IspitProfesorDTO> getIspitiOdProfesoraZaUnosOcene() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Profesor profesor = profesorRepository.findProfesorByEmail(email);
+        ArrayList<IspitProfesorDTO> ispiti = new ArrayList<>();
+
+        LocalDate minDate = LocalDate.now().minusDays(20);
+
+        for(SmerPredmet smerPredmet:profesor.getPredmeti()){
+            for(Ispit ispit:smerPredmet.getIspiti()) {
+                if(!ispit.isUneseniRezultati()) {
+                    if (ispit.getDatum().isAfter(minDate) && ispit.getDatum().isBefore(LocalDate.now())) {
+                        ispiti.add(new IspitProfesorDTO(ispit));
+                    }
+                }
+            }
+        }
+        return ispiti;
     }
 
 

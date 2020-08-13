@@ -1,6 +1,8 @@
 package ftn.diplomski.studentskasluzbaback.controller;
 import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
+import ftn.diplomski.studentskasluzbaback.dto.IspitProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.dto.PredmetDTO;
+import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.repository.IspitRepository;
 import ftn.diplomski.studentskasluzbaback.service.IspitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +29,24 @@ public class IspitController {
 
         return new ResponseEntity<>(ispitService.saveNewIspit(ispitDTO), HttpStatus.OK);
     }
+
+    @PutMapping(value = "/profesorUpdate",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateIspitProfesor(@RequestBody IspitProfesorDTO ispitProfesorDTO) {
+        System.out.println("Update ispit prof");
+
+        return new ResponseEntity<>(ispitService.updateIspitProfesor(ispitProfesorDTO), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/{id}/student",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> studentiKojiSuPrijaviliIspit(@PathVariable("id")Long id) {
+        System.out.println("Studenti rezultati");
+        return new ResponseEntity<>(ispitService.getStudenteZaRezultate(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getIspit(@PathVariable("id")Long id) {
+        System.out.println("Get one ispit");
+        return new ResponseEntity<>(new IspitProfesorDTO(ispitService.getOne(id)), HttpStatus.OK);
+    }
+
 }

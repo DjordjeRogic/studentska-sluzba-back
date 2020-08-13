@@ -29,6 +29,9 @@ public class Ispit {
     @Column
     private LocalTime vremeOdrzavanja;
 
+    @Column
+    private boolean uneseniRezultati;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private SkolskaGodina skolskaGodina;
 
@@ -95,6 +98,22 @@ public class Ispit {
 
     public void setVremeOdrzavanja(LocalTime vremeOdrzavanja) {
         this.vremeOdrzavanja = vremeOdrzavanja;
+    }
+
+    public Set<Student> getStudentiKojiSuPrijavili() {
+        return studentiKojiSuPrijavili;
+    }
+
+    public void setStudentiKojiSuPrijavili(Set<Student> studentiKojiSuPrijavili) {
+        this.studentiKojiSuPrijavili = studentiKojiSuPrijavili;
+    }
+
+    public boolean isUneseniRezultati() {
+        return uneseniRezultati;
+    }
+
+    public void setUneseniRezultati(boolean uneseniRezultati) {
+        this.uneseniRezultati = uneseniRezultati;
     }
 }
 

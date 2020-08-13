@@ -10,6 +10,8 @@ import ftn.diplomski.studentskasluzbaback.service.ProfesorService;
 import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import ftn.diplomski.studentskasluzbaback.service.SmerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -156,37 +158,43 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
                 //JANUARSKO-FEBRUARSKI
                 if(month < 3){
                     if(ispit.getRok().equals(IspitniRok.JAN) || ispit.getRok().equals(IspitniRok.FEB)){
-                        ispits.add(ispit);
+                        if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
+                            ispits.add(ispit);
                     }
                 }
                 //APRIL
                 if(month == 4){
                     if(ispit.getRok().equals(IspitniRok.APR)){
-                        ispits.add(ispit);
+                        if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
+                            ispits.add(ispit);
                     }
                 }
                 //JUN-JUL
                 if(month > 5 && month<8 ){
                     if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
-                        ispits.add(ispit);
+                        if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
+                            ispits.add(ispit);
                     }
                 }
                 //AVGUST
                 if(month > 7 && month<9 ){
                     if(ispit.getRok().equals(IspitniRok.AVG)){
-                        ispits.add(ispit);
+                        if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
+                            ispits.add(ispit);
                     }
                 }
                 //SEPTEMBAR
                 if(month > 7 && month<10 ){
                     if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
-                        ispits.add(ispit);
+                        if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
+                            ispits.add(ispit);
                     }
                 }
                 //OKTOBAR
                 if(month > 8 ){
                     if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
-                        ispits.add(ispit);
+                        if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
+                            ispits.add(ispit);
                     }
                 }
 
@@ -202,4 +210,5 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         }
         return ispits;
     }
+
 }

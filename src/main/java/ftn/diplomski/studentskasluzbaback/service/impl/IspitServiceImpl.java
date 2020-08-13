@@ -1,19 +1,24 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
 import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
+import ftn.diplomski.studentskasluzbaback.dto.IspitProfesorDTO;
+import ftn.diplomski.studentskasluzbaback.dto.StudentRezultatDTO;
 import ftn.diplomski.studentskasluzbaback.enumeration.IspitniRok;
 import ftn.diplomski.studentskasluzbaback.model.Ispit;
 import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
 import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
+import ftn.diplomski.studentskasluzbaback.model.Student;
 import ftn.diplomski.studentskasluzbaback.repository.IspitRepository;
 import ftn.diplomski.studentskasluzbaback.service.IspitService;
 import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
 import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
+import ftn.diplomski.studentskasluzbaback.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 @Service
 public class IspitServiceImpl implements IspitService {
@@ -27,6 +32,8 @@ public class IspitServiceImpl implements IspitService {
     @Autowired
     private SkolskaGodinaService skolskaGodinaService;
 
+    @Autowired
+    private StudentService studentService;
 
     @Override
     public IspitDTO saveNewIspit(IspitDTO ispitDTO) {
@@ -95,5 +102,30 @@ public class IspitServiceImpl implements IspitService {
     @Override
     public Ispit getOne(Long id) {
         return ispitRepository.getOne(id);
+    }
+
+    @Override
+    public IspitProfesorDTO updateIspitProfesor(IspitProfesorDTO ispitProfesorDTO) {
+        Ispit ispit =ispitRepository.getOne(ispitProfesorDTO.getId());
+
+        ispit.setVremeOdrzavanja(LocalTime.parse(ispitProfesorDTO.getVremeOdrzavanja()));
+        ispit.setMestoOdrzavanja(ispitProfesorDTO.getMestoOdrzavanja());
+        ispitRepository.save(ispit);
+        return ispitProfesorDTO;
+    }
+
+    @Override
+    public ArrayList<StudentRezultatDTO> getStudenteZaRezultate(Long id) {
+        Ispit ispit = ispitRepository.getOne(id);
+        ArrayList<StudentRezultatDTO> studentRezultatDTOS = new ArrayList<>();
+        for(Student student: ispit.getStudentiKojiSuPrijavili()){
+            studentRezultatDTOS.add(new StudentRezultatDTO(student));
+        }
+        return studentRezultatDTOS;
+    }
+
+    @Override
+    public Ispit saveIspit(Ispit ispit) {
+        return ispitRepository.save(ispit);
     }
 }

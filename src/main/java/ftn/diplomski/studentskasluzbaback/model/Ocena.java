@@ -88,4 +88,12 @@ public class Ocena {
     public void setSmerPredmet(SmerPredmet smerPredmet) {
         this.smerPredmet = smerPredmet;
     }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }
