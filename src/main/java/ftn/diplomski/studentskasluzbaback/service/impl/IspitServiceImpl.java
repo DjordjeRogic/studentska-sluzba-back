@@ -13,9 +13,14 @@ import ftn.diplomski.studentskasluzbaback.service.IspitService;
 import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
 import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import ftn.diplomski.studentskasluzbaback.service.StudentService;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -127,5 +132,39 @@ public class IspitServiceImpl implements IspitService {
     @Override
     public Ispit saveIspit(Ispit ispit) {
         return ispitRepository.save(ispit);
+    }
+
+    @Override
+    public byte[] downloadStudenteZaRezultate(Long id_ispita) throws IOException {
+        System.out.println("Usao");
+
+        Ispit ispit = ispitRepository.getOne(id_ispita);
+        ArrayList<StudentRezultatDTO> studenti = getStudenteZaRezultate(id_ispita);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("Ispit_"+ispit.getSmerPredmet().getSmer()+"_"+ispit.getSmerPredmet().getPredmet()+"_"+ispit.getDatum());
+
+        HSSFRow rowhead = sheet.createRow(0);
+        rowhead.createCell(0).setCellValue("Ime");
+        rowhead.createCell(1).setCellValue("Prezime");
+        rowhead.createCell(2).setCellValue("Broj indexa");
+        rowhead.createCell(3).setCellValue("Bodovi");
+
+        int index = 1;
+        for(StudentRezultatDTO student: studenti){
+            HSSFRow row = sheet.createRow(index);
+            row.createCell(0).setCellValue(student.getName());
+            row.createCell(1).setCellValue(student.getSurname());
+            row.createCell(2).setCellValue(student.getBrojIndexa());
+            row.createCell(3).setCellValue(0);
+            index++;
+        }
+
+        workbook.write(stream);
+        workbook.close();
+
+        return stream.toByteArray();
     }
 }

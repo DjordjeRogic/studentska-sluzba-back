@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping(value = "/ispit", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
@@ -49,4 +51,11 @@ public class IspitController {
         return new ResponseEntity<>(new IspitProfesorDTO(ispitService.getOne(id)), HttpStatus.OK);
     }
 
+
+    @GetMapping(value="/{id}/student/download",produces ="application/vnd.ms-excel")
+    public ResponseEntity<?> studentiKojiSuPrijaviliIspitDownload(@PathVariable("id")Long id) throws IOException {
+        System.out.println("Studenti rezultati");
+
+        return new ResponseEntity<>(ispitService.downloadStudenteZaRezultate(id), HttpStatus.OK);
+    }
 }
