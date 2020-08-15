@@ -13,17 +13,23 @@ import ftn.diplomski.studentskasluzbaback.service.IspitService;
 import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
 import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import ftn.diplomski.studentskasluzbaback.service.StudentService;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @Service
 public class IspitServiceImpl implements IspitService {
@@ -136,7 +142,6 @@ public class IspitServiceImpl implements IspitService {
 
     @Override
     public byte[] downloadStudenteZaRezultate(Long id_ispita) throws IOException {
-        System.out.println("Usao");
 
         Ispit ispit = ispitRepository.getOne(id_ispita);
         ArrayList<StudentRezultatDTO> studenti = getStudenteZaRezultate(id_ispita);
@@ -166,5 +171,55 @@ public class IspitServiceImpl implements IspitService {
         workbook.close();
 
         return stream.toByteArray();
+    }
+
+    @Override
+    public ArrayList<StudentRezultatDTO> uploadStudenteZaRezultate(Long id_ispita, MultipartFile file) throws IOException {
+        Ispit ispit = ispitRepository.getOne(id_ispita);
+        ArrayList<StudentRezultatDTO> studenti = getStudenteZaRezultate(id_ispita);
+
+        HSSFWorkbook rezultati = new HSSFWorkbook(file.getInputStream());
+
+        HSSFSheet sheet = rezultati.getSheetAt(0);
+        HSSFRow row = sheet.getRow(0);
+
+        System.out.println(row.getCell(0));
+        System.out.println(row.getCell(1));
+        System.out.println(row.getCell(2));
+        System.out.println(row.getCell(3));
+
+        String brojIndexa="";
+        double bodovi=0;
+        HSSFCell cell =row.getCell(0);
+        Iterator<Row> rowIterator = sheet.iterator();
+        rowIterator.next();
+        while (rowIterator.hasNext()){
+            row= (HSSFRow) rowIterator.next();
+
+            //ako nema broja indexa ili bodova preskoci
+            if(row.getCell(2) == null || row.getCell(3) == null)
+                continue;
+
+            brojIndexa = row.getCell(2).getStringCellValue();
+            bodovi = row.getCell(3).getNumericCellValue();
+
+            System.out.println(row.getCell(0));
+            System.out.println(row.getCell(1));
+            System.out.println(row.getCell(2));
+            System.out.println(row.getCell(3));
+
+            //nesipravan broj bodova preskoci
+            if(bodovi > 100 || bodovi<0)
+                continue;
+
+            for(StudentRezultatDTO student: studenti){
+                if(student.getBrojIndexa().equals(brojIndexa)){
+                    student.setBodovi(bodovi);
+                    break;
+                }
+            }
+
+        }
+        return studenti;
     }
 }

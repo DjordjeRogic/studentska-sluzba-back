@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -57,5 +58,12 @@ public class IspitController {
         System.out.println("Studenti rezultati");
 
         return new ResponseEntity<>(ispitService.downloadStudenteZaRezultate(id), HttpStatus.OK);
+    }
+
+    @PostMapping(value="/{id}/student/upload")
+    public ResponseEntity<?> studentiKojiSuPrijaviliIspitUpload(@PathVariable("id")Long id,@RequestParam("file") MultipartFile file) throws IOException {
+        System.out.println("Studenti rezultati");
+
+        return new ResponseEntity<>(ispitService.uploadStudenteZaRezultate(id,file), HttpStatus.OK);
     }
 }
