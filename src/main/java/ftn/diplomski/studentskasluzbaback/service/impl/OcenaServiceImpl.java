@@ -52,7 +52,7 @@ public class OcenaServiceImpl implements OcenaService {
                 ocena.setOcena(5);
 
             }
-
+            ocena.setBrojBodova(studentRezultatDTO.getBodovi());
             if(studentRezultatDTO.getBodovi()>50){
                 ocena.setDatumPolaganja(ispit.getDatum());
                 ocena.setPolozio(true);

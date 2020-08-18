@@ -1,6 +1,7 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
 import ftn.diplomski.studentskasluzbaback.dto.IspitStudentDTO;
+import ftn.diplomski.studentskasluzbaback.dto.OcenaDTO;
 import ftn.diplomski.studentskasluzbaback.dto.StudentDTO;
 import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.SmerRepository;
@@ -21,6 +22,8 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
+    private final Integer daniOdPrijaveIspita = 10; //koristi se za prikaz prijavljenih ispita kod studenta, koliko dana je proslo od zavrsetka ispita a da student moze da vidi da je taj predmet prijavio
 
     @Autowired
     private StudentRepository studentRepository;
@@ -118,11 +121,56 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findByEmail(email);
         ArrayList<IspitStudentDTO> ret = new ArrayList<>();
         for(Ispit ispit:student.getPrijavljeniIspiti()){
-            if(ispit.getDatum().isAfter(LocalDate.now())){
+            if(ispit.getDatum().isAfter(LocalDate.now().minusDays(daniOdPrijaveIspita))){
                 ret.add(new IspitStudentDTO(ispit));
             }
         }
         return ret;
+    }
+
+    @Override
+    public Integer ocekivaniSemestarZaStudenta(Long id) {
+        Student student = studentRepository.getOne(id);
+        SkolskaGodina skolskaGodina = skolskaGodinaService.getTrenutnaSkolskaGodina();
+        int semestar = (skolskaGodina.getPocetakGodine().getYear() -student.getGodinaUpisa().getPocetakGodine().getYear())*2;
+        if(skolskaGodina.getPocetakGodine().getYear() == LocalDate.now().getYear()){
+            semestar+=1;
+        }else{
+            if(LocalDate.now().getMonthValue() <2){
+                semestar+=1;
+            }else{
+                semestar+=2;
+            }
+        }
+
+        return semestar;
+    }
+
+    @Override
+    public Student ulogovanStudent() {
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Student student = studentRepository.findByEmail(email);
+        return student;
+    }
+
+    @Override
+    public void overiSemestarUlogovan() {
+        Student student = ulogovanStudent();
+        student.setSemestar(student.getSemestar()+1);
+        studentRepository.save(student);
+    }
+
+    @Override
+    public ArrayList<OcenaDTO> getOceneUlogovanogStudenta() {
+        Student student = ulogovanStudent();
+        ArrayList<OcenaDTO> ocene = new ArrayList<>();
+        for(Ocena ocena:student.getOcene()){
+            ocene.add(new OcenaDTO(ocena));
+        }
+
+        return ocene;
     }
 
     @Override
@@ -158,6 +206,9 @@ public class StudentServiceImpl implements StudentService {
             if(student.getPrijavljeniIspiti().contains(ispit)){
                 continue;
             }
+            if(ispit.getSmerPredmet().getSemestar() > student.getSemestar())
+                continue;
+
             ret.add(new IspitStudentDTO(ispit));
         }
 

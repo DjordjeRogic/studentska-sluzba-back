@@ -2,6 +2,7 @@ package ftn.diplomski.studentskasluzbaback.dto;
 
 import ftn.diplomski.studentskasluzbaback.model.Ispit;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class IspitStudentDTO {
@@ -20,6 +21,8 @@ public class IspitStudentDTO {
 
     private String vremeOdrzavanja;
 
+    private boolean odjava;
+
     public IspitStudentDTO(Ispit ispit) {
         this.id = ispit.getId();
         this.rok = ispit.getRok().getFieldDescription();
@@ -31,6 +34,13 @@ public class IspitStudentDTO {
             this.vremeOdrzavanja = ispit.getVremeOdrzavanja().format(DateTimeFormatter.ofPattern("HH:mm"));
         }else{
             this.vremeOdrzavanja="";
+        }
+
+        if(ispit.getDatum().isAfter(LocalDate.now().minusDays(3))) {
+            this.odjava = true;
+        }
+        else {
+            this.odjava = false;
         }
     }
 
@@ -101,5 +111,13 @@ public class IspitStudentDTO {
 
     public void setVremeOdrzavanja(String vremeOdrzavanja) {
         this.vremeOdrzavanja = vremeOdrzavanja;
+    }
+
+    public boolean isOdjava() {
+        return odjava;
+    }
+
+    public void setOdjava(boolean odjava) {
+        this.odjava = odjava;
     }
 }

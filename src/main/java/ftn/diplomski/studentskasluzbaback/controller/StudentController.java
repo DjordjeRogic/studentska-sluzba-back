@@ -1,12 +1,15 @@
 package ftn.diplomski.studentskasluzbaback.controller;
 
 import ftn.diplomski.studentskasluzbaback.dto.*;
+import ftn.diplomski.studentskasluzbaback.model.Student;
 import ftn.diplomski.studentskasluzbaback.service.impl.ProfesorServiceImpl;
 import ftn.diplomski.studentskasluzbaback.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -68,4 +71,29 @@ public class StudentController {
         }
         return new ResponseEntity<>( HttpStatus.OK);
     }
+
+    @GetMapping(value = "/semestar/overen",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> checkOverenSemestar() {
+
+        //TODO Provera datuma
+        System.out.println("SEMESTAR:");
+        Student student = studentService.ulogovanStudent();
+        System.out.println(student.getName());
+        Integer ocekivanSmesetar = studentService.ocekivaniSemestarZaStudenta(student.getId());
+        if(student.getSemestar() != ocekivanSmesetar){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/semestar/overi",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> overiSemestar() {
+
+        //TODO Provera datuma, provera stanja na racunu
+
+        studentService.overiSemestarUlogovan();
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
 }
+
+

@@ -1,5 +1,7 @@
 package ftn.diplomski.studentskasluzbaback.model;
 
+import javafx.scene.control.DatePicker;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -26,9 +28,11 @@ public class Ocena {
     @Column
     private Integer ocena;
 
+    @Column
+    private Double brojBodova;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private SmerPredmet smerPredmet;
-
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Student student;
@@ -95,5 +99,13 @@ public class Ocena {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Double getBrojBodova() {
+        return brojBodova;
+    }
+
+    public void setBrojBodova(Double brojBodova) {
+        this.brojBodova = brojBodova;
     }
 }

@@ -1,6 +1,7 @@
 package ftn.diplomski.studentskasluzbaback.service;
 
 import ftn.diplomski.studentskasluzbaback.dto.IspitStudentDTO;
+import ftn.diplomski.studentskasluzbaback.dto.OcenaDTO;
 import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.dto.StudentDTO;
 import ftn.diplomski.studentskasluzbaback.model.Profesor;
@@ -22,4 +23,10 @@ public interface StudentService {
     String checkNewStudent(StudentDTO studentDTO);
     String checkPrijavaIspita(IspitStudentDTO ispitStudentDTO);
     ArrayList<IspitStudentDTO> getPrijavljeniIsptiOdStudenta();
+    Integer ocekivaniSemestarZaStudenta(Long id);
+    Student ulogovanStudent();
+    void overiSemestarUlogovan();
+    ArrayList<OcenaDTO> getOceneUlogovanogStudenta();
+
+
 }
