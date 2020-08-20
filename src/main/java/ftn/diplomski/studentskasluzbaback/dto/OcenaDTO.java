@@ -27,10 +27,13 @@ public class OcenaDTO {
 
     private double brojaBodova;
 
+    private int semestar;
+
     public OcenaDTO() {
     }
 
-    public OcenaDTO(Long id, boolean polozio, String datumPolaganja, boolean potpis, Integer brojDolazakaNaPredavanja, Integer ocena, String nazivPredmeta, String sifraPredmeta, double brojaBodova) {
+
+    public OcenaDTO(Long id, boolean polozio, String datumPolaganja, boolean potpis, Integer brojDolazakaNaPredavanja, Integer ocena, String nazivPredmeta, String sifraPredmeta, double brojaBodova, int semestar) {
         this.id = id;
         this.polozio = polozio;
         this.datumPolaganja = datumPolaganja;
@@ -40,13 +43,14 @@ public class OcenaDTO {
         this.nazivPredmeta = nazivPredmeta;
         this.sifraPredmeta = sifraPredmeta;
         this.brojaBodova = brojaBodova;
+        this.semestar = semestar;
     }
 
     public OcenaDTO(Ocena ocena) {
         this.id = ocena.getId();
         this.polozio = ocena.isPolozio();
         if (ocena.getDatumPolaganja() != null) {
-            this.datumPolaganja = ocena.getDatumPolaganja().format(DateTimeFormatter.ofPattern("HH:mm"));
+            this.datumPolaganja = ocena.getDatumPolaganja().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         }else{
             this.datumPolaganja="";
         }
@@ -56,6 +60,7 @@ public class OcenaDTO {
         this.nazivPredmeta = ocena.getSmerPredmet().getPredmet().getNaziv();
         this.sifraPredmeta = ocena.getSmerPredmet().getSifraStudijskogPrograma();
         this.brojaBodova = ocena.getBrojBodova();
+        this.semestar = ocena.getSmerPredmet().getSemestar();
     }
 
     public Long getId() {
@@ -128,5 +133,13 @@ public class OcenaDTO {
 
     public void setSifraPredmeta(String sifraPredmeta) {
         this.sifraPredmeta = sifraPredmeta;
+    }
+
+    public int getSemestar() {
+        return semestar;
+    }
+
+    public void setSemestar(int semestar) {
+        this.semestar = semestar;
     }
 }

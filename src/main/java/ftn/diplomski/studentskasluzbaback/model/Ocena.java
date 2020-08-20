@@ -1,7 +1,5 @@
 package ftn.diplomski.studentskasluzbaback.model;
 
-import javafx.scene.control.DatePicker;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 

@@ -28,6 +28,12 @@ public class StudentController {
         return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getStudent(@PathVariable("id")Long id) {
+        System.out.println("Student");
+        return new ResponseEntity<>(new StudentDTO(studentService.findStudent(id)), HttpStatus.OK);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postProfesor(@RequestBody StudentDTO studentDTO) {
         System.out.println("Add Student");
@@ -93,6 +99,13 @@ public class StudentController {
 
         studentService.overiSemestarUlogovan();
         return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/ocena",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getOcene() {
+        System.out.println("Ocene od studenta");
+        ArrayList<OcenaDTO> ret = studentService.getOceneUlogovanogStudenta();
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
 

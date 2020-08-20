@@ -40,6 +40,7 @@ public class OcenaServiceImpl implements OcenaService {
         for(StudentRezultatDTO studentRezultatDTO :studentRezultatDTOS) {
 
             Student student = studentService.findStudent(studentRezultatDTO.getId());
+            System.out.println("Studentdto: "+studentRezultatDTO.getId());
             Ocena ocena = pronadjiOcenuOdStudentaZaPredmet(student,ispit.getSmerPredmet());
 
             if(ocena == null){
@@ -50,12 +51,16 @@ public class OcenaServiceImpl implements OcenaService {
                 ocena.setSmerPredmet(ispit.getSmerPredmet());
                 ocena.setStudent(student);
                 ocena.setOcena(5);
+                ocena.setStudent(student);
 
             }
             ocena.setBrojBodova(studentRezultatDTO.getBodovi());
             if(studentRezultatDTO.getBodovi()>50){
                 ocena.setDatumPolaganja(ispit.getDatum());
                 ocena.setPolozio(true);
+
+                System.out.println("Student: "+student.getId());
+                ocena.setStudent(student);
 
 
                 if(studentRezultatDTO.getBodovi()<61){

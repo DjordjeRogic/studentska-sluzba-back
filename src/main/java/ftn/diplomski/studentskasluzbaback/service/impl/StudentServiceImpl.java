@@ -165,8 +165,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ArrayList<OcenaDTO> getOceneUlogovanogStudenta() {
         Student student = ulogovanStudent();
+        System.out.println("Student: "+ student.getId());
         ArrayList<OcenaDTO> ocene = new ArrayList<>();
+        System.out.println("Ocene: "+ student.getOcene().size());
         for(Ocena ocena:student.getOcene()){
+            System.out.println("Ocena: "+ ocena.getId());
+
             ocene.add(new OcenaDTO(ocena));
         }
 
@@ -175,7 +179,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findStudent(Long id) {
-        return null;
+        return studentRepository.getOne(id);
     }
 
     @Override

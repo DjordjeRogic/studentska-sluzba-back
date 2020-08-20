@@ -15,7 +15,7 @@ public class Student extends User {
     @Column(name = "semestar")
     private Integer semestar;
 
-    @OneToMany(mappedBy = "smerPredmet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Ocena> ocene;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
