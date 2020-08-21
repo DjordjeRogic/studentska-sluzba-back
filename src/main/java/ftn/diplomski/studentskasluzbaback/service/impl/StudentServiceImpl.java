@@ -178,6 +178,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public ArrayList<Student> findAll() {
+        return (ArrayList<Student>) studentRepository.findAll();
+    }
+
+    @Override
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
+
+    @Override
     public Student findStudent(Long id) {
         return studentRepository.getOne(id);
     }

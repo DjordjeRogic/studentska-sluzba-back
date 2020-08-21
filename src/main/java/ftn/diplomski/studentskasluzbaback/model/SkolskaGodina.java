@@ -19,6 +19,18 @@ public class SkolskaGodina {
     @Column(name="krajGodine")
     private LocalDate krajGodine;
 
+    @Column
+    private  LocalDate pocetakOvereZimskog;
+
+    @Column
+    private  LocalDate krajOvereZimskog;
+
+    @Column
+    private  LocalDate pocetakOvereLetnjeg;
+
+    @Column
+    private  LocalDate krajOvereLetnjeg;
+
     @OneToMany(mappedBy = "skolskaGodina", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Ispit> ispiti;
 
@@ -58,5 +70,45 @@ public class SkolskaGodina {
 
     public void setIspiti(Set<Ispit> ispiti) {
         this.ispiti = ispiti;
+    }
+
+    public LocalDate getPocetakOvereZimskog() {
+        return pocetakOvereZimskog;
+    }
+
+    public void setPocetakOvereZimskog(LocalDate pocetakOvereZimskog) {
+        this.pocetakOvereZimskog = pocetakOvereZimskog;
+    }
+
+    public LocalDate getKrajOvereZimskog() {
+        return krajOvereZimskog;
+    }
+
+    public void setKrajOvereZimskog(LocalDate krajOvereZimskog) {
+        this.krajOvereZimskog = krajOvereZimskog;
+    }
+
+    public LocalDate getPocetakOvereLetnjeg() {
+        return pocetakOvereLetnjeg;
+    }
+
+    public void setPocetakOvereLetnjeg(LocalDate pocetakOvereLetnjeg) {
+        this.pocetakOvereLetnjeg = pocetakOvereLetnjeg;
+    }
+
+    public LocalDate getKrajOvereLetnjeg() {
+        return krajOvereLetnjeg;
+    }
+
+    public void setKrajOvereLetnjeg(LocalDate krajOvereLetnjeg) {
+        this.krajOvereLetnjeg = krajOvereLetnjeg;
+    }
+
+    public Set<Student> getUpisaniStudetnti() {
+        return upisaniStudetnti;
+    }
+
+    public void setUpisaniStudetnti(Set<Student> upisaniStudetnti) {
+        this.upisaniStudetnti = upisaniStudetnti;
     }
 }

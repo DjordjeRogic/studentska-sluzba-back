@@ -18,9 +18,9 @@ insert into predmet(naziv, kategorija) value ('Algebra',0);
 insert into smer_predmet(sifra_studijskog_programa, broj_predavanjaugodini, brojesbpbodova, semestar, predmet_id, profesor_id, smer_id) values ('E2123',24,9,1,1,2,1);
 
 insert into skolska_godina(pocetak_godine,kraj_godine) value('2016-10-01','2017-09-30');
-insert into skolska_godina(pocetak_godine,kraj_godine) value('2019-10-01','2020-09-30');
+insert into skolska_godina(pocetak_godine,kraj_godine,pocetak_overe_letnjeg,kraj_overe_letnjeg,pocetak_overe_zimskog,kraj_overe_zimskog) value('2019-10-01','2020-09-30','2020-05-20','2020-05-30','2020-01-05','2020-01-25');
 
-insert into ispit(rok,datum,mesto_odrzavanja,skolska_godina_id,smer_predmet_id,uneseni_rezultati) values (5,'2020-08-10','A1',1,1,false);
+insert into ispit(rok,datum,mesto_odrzavanja,skolska_godina_id,smer_predmet_id,uneseni_rezultati) values (5,'2020-08-10','A1',2,1,false);
 insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Djordje', 'Rogic ', 'client@gmail.com', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra56-2016',7,1,1);
 
 insert into user_prijavljeni_ispiti(student_id,prijavljeni_ispiti_id) values (3,1);

@@ -27,6 +27,6 @@ public interface StudentService {
     Student ulogovanStudent();
     void overiSemestarUlogovan();
     ArrayList<OcenaDTO> getOceneUlogovanogStudenta();
-
-
+    ArrayList<Student> findAll();
+    Student save(Student student);
 }

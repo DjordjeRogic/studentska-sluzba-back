@@ -33,4 +33,9 @@ public class SkolskaGodinaServiceImpl implements SkolskaGodinaService {
 
         return null;
     }
+
+    @Override
+    public SkolskaGodina save(SkolskaGodina novaSkolskaGodina) {
+        return skolskaGodinaRepository.save(novaSkolskaGodina);
+    }
 }

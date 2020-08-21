@@ -1,7 +1,9 @@
 package ftn.diplomski.studentskasluzbaback.controller;
 
 import ftn.diplomski.studentskasluzbaback.dto.*;
+import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
 import ftn.diplomski.studentskasluzbaback.model.Student;
+import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
 import ftn.diplomski.studentskasluzbaback.service.impl.ProfesorServiceImpl;
 import ftn.diplomski.studentskasluzbaback.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 @RestController
@@ -21,6 +25,9 @@ import java.util.ArrayList;
 public class StudentController {
     @Autowired
     private StudentServiceImpl studentService;
+
+    @Autowired
+    private SkolskaGodinaService skolskaGodinaService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllStudenti() {
@@ -83,19 +90,42 @@ public class StudentController {
 
         //TODO Provera datuma
         System.out.println("SEMESTAR:");
-        Student student = studentService.ulogovanStudent();
-        System.out.println(student.getName());
-        Integer ocekivanSmesetar = studentService.ocekivaniSemestarZaStudenta(student.getId());
-        if(student.getSemestar() != ocekivanSmesetar){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        SkolskaGodina skolskaGodina = skolskaGodinaService.getTrenutnaSkolskaGodina();
+        if(LocalDate.now().isAfter(skolskaGodina.getPocetakOvereLetnjeg()) && LocalDate.now().isBefore(skolskaGodina.getKrajOvereLetnjeg())){
+
+            Student student = studentService.ulogovanStudent();
+            System.out.println(student.getName());
+            Integer ocekivanSmesetar = studentService.ocekivaniSemestarZaStudenta(student.getId());
+            if(student.getSemestar() != ocekivanSmesetar){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<>("Pocela je overa letnjeg semestra",HttpStatus.OK);
+
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        if(LocalDate.now().isAfter(skolskaGodina.getPocetakOvereZimskog()) && LocalDate.now().isBefore(skolskaGodina.getKrajOvereZimskog())){
+
+            Student student = studentService.ulogovanStudent();
+            System.out.println(student.getName());
+            Integer ocekivanSmesetar = studentService.ocekivaniSemestarZaStudenta(student.getId());
+            if(student.getSemestar() != ocekivanSmesetar){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<>("Pocela je overa zimskog semestra",HttpStatus.OK);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = "/semestar/overi",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> overiSemestar() {
 
         //TODO Provera datuma, provera stanja na racunu
+
 
         studentService.overiSemestarUlogovan();
         return new ResponseEntity<>( HttpStatus.OK);
