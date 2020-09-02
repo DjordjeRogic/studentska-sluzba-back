@@ -71,4 +71,10 @@ public class ProfesorController {
         System.out.println("Ispsiti profesor");
         return new ResponseEntity<>(profesorService.getIspitiOdProfesoraZaUnosOcene(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/ulogovan/predmet",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPredmetiOdProfesora() {
+        System.out.println("Ispsiti profesor");
+        return new ResponseEntity<>(profesorService.getPredmetiOdProfesora(), HttpStatus.OK);
+    }
 }

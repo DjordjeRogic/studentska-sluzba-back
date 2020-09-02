@@ -43,6 +43,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private SmerPredmetService smerPredmetService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public ArrayList<StudentDTO> getAllStudents() {
         List<Student> students = studentRepository.findAll();
@@ -67,8 +70,8 @@ public class StudentServiceImpl implements StudentService {
         student.setEmail(studentDTO.getEmail());
         student.setRole("ROLE_STUDENT");
         student.setSmer(smer);
-
-
+        student.setEnabled(true);
+        student.setSemestar(1);
         String password = generateRandomPassword();
 
 
@@ -91,6 +94,8 @@ public class StudentServiceImpl implements StudentService {
         studentDTO.setId(saved.getId());
         studentDTO.setBrojIndexa(saved.getBrojIndexa());
 
+        //posalji mail studentu
+        emailService.otvorenNalogStudentu(student,password);
 
         return studentDTO;
     }

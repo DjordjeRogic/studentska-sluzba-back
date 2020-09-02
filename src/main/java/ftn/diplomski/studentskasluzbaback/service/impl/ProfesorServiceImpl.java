@@ -177,6 +177,20 @@ public class ProfesorServiceImpl implements ProfesorService {
         return ispiti;
     }
 
+    @Override
+    public ArrayList<SmerPredmetDTO> getPredmetiOdProfesora() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+        Profesor profesor = profesorRepository.findProfesorByEmail(email);
+        ArrayList<SmerPredmetDTO> smerPredmetDTOS = new ArrayList<>();
+
+        for(SmerPredmet smerPredmet : profesor.getPredmeti()){
+            smerPredmetDTOS.add(new SmerPredmetDTO(smerPredmet));
+        }
+
+        return smerPredmetDTOS;
+    }
+
 
     private String generateRandomPassword(){
         int length = 15;

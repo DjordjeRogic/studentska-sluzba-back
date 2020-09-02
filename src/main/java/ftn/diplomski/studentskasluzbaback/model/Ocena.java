@@ -106,4 +106,6 @@ public class Ocena {
     public void setBrojBodova(Double brojBodova) {
         this.brojBodova = brojBodova;
     }
+
+
 }

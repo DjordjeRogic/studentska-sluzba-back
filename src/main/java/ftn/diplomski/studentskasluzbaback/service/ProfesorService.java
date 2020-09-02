@@ -21,5 +21,5 @@ public interface ProfesorService {
     ArrayList<SmerPredmetDTO> getStudijskeProgrameKojeUlogovanProfesorPredaje();
     ArrayList<IspitProfesorDTO> getIspiteKodUlogovanogProfesora();
     ArrayList<IspitProfesorDTO> getIspitiOdProfesoraZaUnosOcene();
-
+    ArrayList<SmerPredmetDTO> getPredmetiOdProfesora();
 }

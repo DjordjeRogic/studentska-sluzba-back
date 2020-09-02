@@ -32,7 +32,7 @@ public class Smer {
     private Set<SmerPredmet> predmeti;
 
     @OneToMany(mappedBy = "smer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Student> student;
+    private Set<Student> studenti;
 
     public Smer() {
     }
@@ -92,5 +92,13 @@ public class Smer {
 
     public void setPredmeti(Set<SmerPredmet> predmeti) {
         this.predmeti = predmeti;
+    }
+
+    public Set<Student> getStudenti() {
+        return studenti;
+    }
+
+    public void setStudenti(Set<Student> studenti) {
+        this.studenti = studenti;
     }
 }

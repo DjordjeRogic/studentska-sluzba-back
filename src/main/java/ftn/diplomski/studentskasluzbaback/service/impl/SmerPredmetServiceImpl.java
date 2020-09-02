@@ -1,21 +1,26 @@
 package ftn.diplomski.studentskasluzbaback.service.impl;
 
-import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
-import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
+import ftn.diplomski.studentskasluzbaback.dto.*;
 import ftn.diplomski.studentskasluzbaback.enumeration.IspitniRok;
 import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.SmerPredmetRepository;
-import ftn.diplomski.studentskasluzbaback.service.PredmetService;
-import ftn.diplomski.studentskasluzbaback.service.ProfesorService;
-import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
-import ftn.diplomski.studentskasluzbaback.service.SmerService;
+import ftn.diplomski.studentskasluzbaback.service.*;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @Service
 public class SmerPredmetServiceImpl implements SmerPredmetService {
@@ -34,6 +39,12 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
     @Autowired
     private SkolskaGodinaServiceImpl skolskaGodinaService;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private OcenaService ocenaService;
 
     @Override
     public SmerPredmet poveziProfesoraSaSmeromIpredmetom(Profesor profesor, Smer smer, Predmet predmet, Integer smestar) {
@@ -209,6 +220,134 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
             }
         }
         return ispits;
+    }
+
+    @Override
+    public ArrayList<StudentDolasciDTO> getStudentiDolasci(Long id) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        ArrayList<StudentDolasciDTO> studentDTOS = new ArrayList<>();
+        for(Student student: smerPredmet.getSmer().getStudenti()){
+            if(student.getSemestar() == smerPredmet.getSemestar()){
+                for(Ocena ocena : student.getOcene()) {
+                    if(ocena.getSmerPredmet().equals(smerPredmet)) {
+                        studentDTOS.add(new StudentDolasciDTO(ocena));
+                        break;
+                    }
+                }
+            }
+        }
+        return studentDTOS;
+    }
+
+    @Override
+    public byte[] downloadStudenteZaDolaske(Long id) throws IOException {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        ArrayList<StudentDolasciDTO> studenti = getStudentiDolasci(id);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("Dolasci_"+smerPredmet.getSmer().getNaziv()+"_"+smerPredmet.getPredmet().getNaziv());
+
+        HSSFRow rowhead = sheet.createRow(0);
+        rowhead.createCell(0).setCellValue("Ime");
+        rowhead.createCell(1).setCellValue("Prezime");
+        rowhead.createCell(2).setCellValue("Broj indexa");
+        rowhead.createCell(3).setCellValue("Dolasci");
+
+        int index = 1;
+        for(StudentDolasciDTO student: studenti){
+            HSSFRow row = sheet.createRow(index);
+            row.createCell(0).setCellValue(student.getName());
+            row.createCell(1).setCellValue(student.getSurname());
+            row.createCell(2).setCellValue(student.getBrojIndexa());
+            row.createCell(3).setCellValue(student.getBrojDolazaka());
+            index++;
+        }
+
+        workbook.write(stream);
+        workbook.close();
+
+        return stream.toByteArray();
+    }
+
+    @Override
+    public ArrayList<StudentDolasciDTO> uploadStudenteZaDolaske(Long id, MultipartFile file) throws IOException {
+        System.out.println("UPLOAD");
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        ArrayList<StudentDolasciDTO> studenti = getStudentiDolasci(id);
+
+        HSSFWorkbook rezultati = new HSSFWorkbook(file.getInputStream());
+
+        HSSFSheet sheet = rezultati.getSheetAt(0);
+        HSSFRow row = sheet.getRow(0);
+
+        System.out.println(row.getCell(0));
+        System.out.println(row.getCell(1));
+        System.out.println(row.getCell(2));
+        System.out.println(row.getCell(3));
+
+        String brojIndexa="";
+        int dolasci=0;
+        HSSFCell cell =row.getCell(0);
+        Iterator<Row> rowIterator = sheet.iterator();
+        rowIterator.next();
+        while (rowIterator.hasNext()){
+            row= (HSSFRow) rowIterator.next();
+
+            //ako nema broja indexa ili bodova preskoci
+            if(row.getCell(2) == null || row.getCell(3) == null)
+                continue;
+
+            brojIndexa = row.getCell(2).getStringCellValue();
+            dolasci = (int) row.getCell(3).getNumericCellValue();
+
+            System.out.println(row.getCell(0));
+            System.out.println(row.getCell(1));
+            System.out.println(row.getCell(2));
+            System.out.println(row.getCell(3));
+
+            //nesipravan broj bodova preskoci
+            if(dolasci > smerPredmet.getBrojPredavanjaUGodini() || dolasci<0)
+                continue;
+
+            for(StudentDolasciDTO student: studenti){
+                if(student.getBrojIndexa().equals(brojIndexa)){
+                    student.setBrojDolazaka(dolasci);
+                    break;
+                }
+            }
+
+        }
+        return studenti;
+    }
+
+    @Override
+    public void unesiDolaske(Long id, ArrayList<StudentDolasciDTO> studentDolasciDTOS) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+
+        System.out.println("**DOLASCI**");
+
+        for(StudentDolasciDTO studentDTO: studentDolasciDTOS){
+            Student student = studentService.findStudent(studentDTO.getId());
+            for(Ocena ocena : student.getOcene()){
+                System.out.println(ocena.getId());
+                System.out.println(ocena.getSmerPredmet().getPredmet().getNaziv());
+                System.out.println(smerPredmet.getPredmet().getNaziv());
+                System.out.println(ocena.getBrojDolazakaNaPredavanja());
+                System.out.println(studentDTO.getBrojDolazaka());
+                if(ocena.getSmerPredmet().equals(smerPredmet)){
+                    ocena.setBrojDolazakaNaPredavanja(studentDTO.getBrojDolazaka());
+                    ocenaService.save(ocena);
+                    break;
+                }
+            }
+
+
+        }
+        System.out.println("**DOLASCI**");
+
+
     }
 
 }

@@ -3,10 +3,7 @@ package ftn.diplomski.studentskasluzbaback.service.impl;
 import ftn.diplomski.studentskasluzbaback.dto.StudentRezultatDTO;
 import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.OcenaRepository;
-import ftn.diplomski.studentskasluzbaback.service.IspitService;
-import ftn.diplomski.studentskasluzbaback.service.OcenaService;
-import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
-import ftn.diplomski.studentskasluzbaback.service.StudentService;
+import ftn.diplomski.studentskasluzbaback.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,9 @@ public class OcenaServiceImpl implements OcenaService {
 
     @Autowired
     private IspitService ispitService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public Ocena pronadjiOcenuOdStudentaZaPredmet(Student student, SmerPredmet smerPredmet) {
@@ -81,13 +81,18 @@ public class OcenaServiceImpl implements OcenaService {
                     }
                 }
 
-
+                emailService.uneseniRezultatiIspita(ocena);
             }
             ocenaRepository.save(ocena);
         }
         ispit.setUneseniRezultati(true);
         ispitService.saveIspit(ispit);
 
+    }
+
+    @Override
+    public Ocena save(Ocena ocena) {
+        return ocenaRepository.save(ocena);
     }
 
 }

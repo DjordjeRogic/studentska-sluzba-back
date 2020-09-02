@@ -3,6 +3,7 @@ package ftn.diplomski.studentskasluzbaback.controller;
 import ftn.diplomski.studentskasluzbaback.dto.*;
 import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
 import ftn.diplomski.studentskasluzbaback.model.Student;
+import ftn.diplomski.studentskasluzbaback.service.EmailService;
 import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
 import ftn.diplomski.studentskasluzbaback.service.impl.ProfesorServiceImpl;
 import ftn.diplomski.studentskasluzbaback.service.impl.StudentServiceImpl;
@@ -42,7 +43,7 @@ public class StudentController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> postProfesor(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<?> postStudent(@RequestBody StudentDTO studentDTO) {
         System.out.println("Add Student");
 
         String checkMessage = studentService.checkNewStudent(studentDTO);
@@ -101,7 +102,7 @@ public class StudentController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            return new ResponseEntity<>("Pocela je overa letnjeg semestra",HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
 
         }
 
@@ -114,11 +115,11 @@ public class StudentController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            return new ResponseEntity<>("Pocela je overa zimskog semestra",HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
 
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/semestar/overi",produces = MediaType.APPLICATION_JSON_VALUE)
