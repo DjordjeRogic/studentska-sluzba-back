@@ -1,6 +1,7 @@
 package ftn.diplomski.studentskasluzbaback.controller;
 
 import ftn.diplomski.studentskasluzbaback.dto.CurrentUser;
+import ftn.diplomski.studentskasluzbaback.dto.SifraDTO;
 import ftn.diplomski.studentskasluzbaback.model.User;
 import ftn.diplomski.studentskasluzbaback.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,5 +32,12 @@ public class UserController {
         return new ResponseEntity<>(currentUserDto, HttpStatus.OK);
     }
 
-
+    @PutMapping(value = "/{id}/sifra")
+    public ResponseEntity<?> changePassword(@PathVariable("id") Long id,@RequestBody SifraDTO sifraDTO) {
+        if(!sifraDTO.getNovaSifra().equals(sifraDTO.getPotvrda())){
+            return new ResponseEntity<>("Sifra i potvrda se ne poklapaju ",HttpStatus.BAD_REQUEST);
+        }
+        userService.changePassword(sifraDTO.getTrenutnaSifra(),sifraDTO.getNovaSifra(),id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

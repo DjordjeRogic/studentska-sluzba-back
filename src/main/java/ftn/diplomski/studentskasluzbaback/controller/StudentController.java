@@ -54,6 +54,18 @@ public class StudentController {
         return new ResponseEntity<>(studentService.saveNewStudent(studentDTO), HttpStatus.OK);
     }
 
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?>updateStudent(@RequestBody StudentDTO studentDTO) {
+        System.out.println("Add Student");
+
+        String checkMessage = studentService.checkUpdateStudent(studentDTO);
+        if(checkMessage != null){
+            return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(studentService.updateStudent(studentDTO), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/ulogovan/predmeti/trenutniIspiti",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTrenutniIspitiSmera() {
         System.out.println("Trenutni isoiti od smera:");

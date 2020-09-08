@@ -124,6 +124,7 @@ public class ProfesorServiceImpl implements ProfesorService {
         profesor.setSifraProfesora(profesorDTO.getSifraProfesora());
         profesor.setName(profesorDTO.getName());
         profesor.setSurname(profesorDTO.getSurname());
+        profesorRepository.save(profesor);
 
         return profesorDTO;
     }
@@ -189,6 +190,16 @@ public class ProfesorServiceImpl implements ProfesorService {
         }
 
         return smerPredmetDTOS;
+    }
+
+    @Override
+    public ProfesorDTO getProfesor(Long id) {
+        return new ProfesorDTO(profesorRepository.getOne(id));
+    }
+
+    @Override
+    public String checkUpdateProfesor(ProfesorDTO profesorDTO) {
+        return null;
     }
 
 

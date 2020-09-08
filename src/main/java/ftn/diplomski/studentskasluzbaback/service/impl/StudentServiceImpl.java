@@ -192,6 +192,30 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(student);
     }
 
+    //TODO
+    @Override
+    public String checkUpdateStudent(StudentDTO studentDTO) {
+        return null;
+    }
+
+    @Override
+    public void deleteStudent(Long id) {
+
+    }
+
+    @Override
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
+        Student student = studentRepository.getOne(studentDTO.getId());
+        Smer smer = smerService.findSmer(studentDTO.getSmer().getId());
+        student.setSmer(smer);
+        student.setEmail(studentDTO.getEmail());
+        student.setName(studentDTO.getName());
+        student.setSurname(studentDTO.getSurname());
+
+        studentRepository.save(student);
+        return studentDTO;
+    }
+
     @Override
     public Student findStudent(Long id) {
         return studentRepository.getOne(id);

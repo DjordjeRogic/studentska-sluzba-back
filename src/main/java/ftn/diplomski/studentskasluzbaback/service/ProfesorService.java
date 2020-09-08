@@ -14,7 +14,6 @@ public interface ProfesorService {
     ProfesorDTO saveNewProfesor(ProfesorDTO profesorDTO);
     String checkNewProfesor(ProfesorDTO profesorDTO);
     Profesor findProfesor(Long id);
-
     ProfesorDTO deleteProfesor(Long id);
     String proveriDaLiProfesorMozeBitiObrisan(Long id);
     ProfesorDTO updateProfesor(ProfesorDTO profesorDTO);
@@ -22,4 +21,6 @@ public interface ProfesorService {
     ArrayList<IspitProfesorDTO> getIspiteKodUlogovanogProfesora();
     ArrayList<IspitProfesorDTO> getIspitiOdProfesoraZaUnosOcene();
     ArrayList<SmerPredmetDTO> getPredmetiOdProfesora();
+    ProfesorDTO getProfesor(Long id);
+    String checkUpdateProfesor(ProfesorDTO profesorDTO);
 }

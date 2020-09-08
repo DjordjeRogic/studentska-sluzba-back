@@ -29,4 +29,7 @@ public interface StudentService {
     ArrayList<OcenaDTO> getOceneUlogovanogStudenta();
     ArrayList<Student> findAll();
     Student save(Student student);
+    String checkUpdateStudent(StudentDTO studentDTO);
+    void deleteStudent(Long id);
+    StudentDTO updateStudent(StudentDTO studentDTO);
 }

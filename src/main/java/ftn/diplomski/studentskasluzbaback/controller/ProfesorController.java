@@ -27,6 +27,12 @@ public class ProfesorController {
         return new ResponseEntity<>(profesorService.getAllProfesors(), HttpStatus.OK);
     }
 
+    @GetMapping(value ="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getProfesor(@PathVariable("id")Long id) {
+        System.out.println("Profesori");
+        return new ResponseEntity<>(profesorService.getProfesor(id), HttpStatus.OK);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postProfesor(@RequestBody ProfesorDTO profesorDTO) {
         System.out.println("Add Profesor");
@@ -52,7 +58,7 @@ public class ProfesorController {
     public ResponseEntity<?> updateProfesor(@RequestBody ProfesorDTO profesorDTO) {
         System.out.println("Add Profesor");
 
-        String checkMessage = profesorService.checkNewProfesor(profesorDTO);
+        String checkMessage = profesorService.checkUpdateProfesor(profesorDTO);
         if(checkMessage != null){
             return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
         }
