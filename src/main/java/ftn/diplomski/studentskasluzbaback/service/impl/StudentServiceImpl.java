@@ -200,7 +200,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(Long id) {
-
+        Student student = studentRepository.getOne(id);
+        studentRepository.delete(student);
     }
 
     @Override

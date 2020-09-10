@@ -10,8 +10,14 @@ import java.util.ArrayList;
 public interface PredmetService {
 
     ArrayList<PredmetDTO> getAllPredmets();
-    PredmetDTO saveNewPredmet(PredmetDTO profesorDTO);
-    String checkNewPredmet(PredmetDTO profesorDTO);
+    PredmetDTO saveNewPredmet(PredmetDTO predmetDTO);
+    String checkNewPredmet(PredmetDTO predmetDTO);
     ArrayList<PredmetDTO> getPredmetiKojiNePripadajuSmeru(Long idSmera);
     Predmet findPredmet(Long id);
+
+    PredmetDTO updatePredmet(PredmetDTO predmetDTO);
+
+    String proveriDaLiMozeBitiObrisan(Long id);
+
+    void deletePredmet(Long id);
 }

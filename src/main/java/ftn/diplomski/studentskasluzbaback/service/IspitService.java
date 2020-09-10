@@ -20,4 +20,6 @@ public interface IspitService {
     byte[] downloadStudenteZaRezultate(Long id_ispita) throws IOException;
 
     ArrayList<StudentRezultatDTO> uploadStudenteZaRezultate(Long id_ispita, MultipartFile file) throws IOException;
+
+    String checkRemoveIspti(Long id);
 }

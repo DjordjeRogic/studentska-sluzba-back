@@ -50,4 +50,11 @@ public class Predmet {
         this.kategorija = kategorija;
     }
 
+    public Set<SmerPredmet> getSmerovi() {
+        return smerovi;
+    }
+
+    public void setSmerovi(Set<SmerPredmet> smerovi) {
+        this.smerovi = smerovi;
+    }
 }

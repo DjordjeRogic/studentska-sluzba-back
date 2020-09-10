@@ -25,10 +25,41 @@ public class PredmetController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> postProfesor(@RequestBody PredmetDTO predmetDTO) {
+    public ResponseEntity<?> postPredmet(@RequestBody PredmetDTO predmetDTO) {
         System.out.println("Add Predmet");
 
+        String checkMessage = predmetService.checkNewPredmet(predmetDTO);
+        if(checkMessage != null){
+            return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(predmetService.saveNewPredmet(predmetDTO), HttpStatus.OK);
+    }
+
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updatePredmet(@RequestBody PredmetDTO predmetDTO) {
+        System.out.println("update Predmet");
+
+        String checkMessage = predmetService.checkNewPredmet(predmetDTO);
+        if(checkMessage != null){
+            return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(predmetService.updatePredmet(predmetDTO), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deletePredmet(@PathVariable("id") Long id) {
+        System.out.println("Add Predmet");
+
+        String checkMessage = predmetService.proveriDaLiMozeBitiObrisan(id);
+        if(checkMessage != null){
+            return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
+        }
+        predmetService.deletePredmet(id);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
     @GetMapping(value="/nePripadaSmeru/{id}",produces = MediaType.APPLICATION_JSON_VALUE)

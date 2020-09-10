@@ -350,4 +350,63 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
     }
 
+    @Override
+    public String checkUpdate(SmerPredmetDTO smerPredmetDTO) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(smerPredmetDTO.getId());
+
+
+        if(smerPredmetRepository.findBySifraStudijskogPrograma(smerPredmet.getSifraStudijskogPrograma()) != null && smerPredmetRepository.findBySifraStudijskogPrograma(smerPredmet.getSifraStudijskogPrograma())!= smerPredmet){
+            return "Studijski program sa tom sifrom vec postoji!";
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public SmerPredmetDTO update(SmerPredmetDTO smerPredmetDTO) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(smerPredmetDTO.getId());
+        smerPredmet.setSemestar(smerPredmetDTO.getSemestar());
+        smerPredmet.setSifraStudijskogPrograma(smerPredmetDTO.getSifraStudijskogPrograma());
+        smerPredmet.setBrojPredavanjaUGodini(smerPredmetDTO.getBrojPredavanjaUGodini());
+        Profesor profesor = profesorService.findProfesor(smerPredmetDTO.getPredmet().getId());
+        smerPredmet.setProfesor(profesor);
+
+        smerPredmetRepository.save(smerPredmet);
+        return smerPredmetDTO;
+    }
+
+    @Override
+    public String checkDelete(Long id) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        if (smerPredmet.getOcene().size() > 0)
+        {
+            return "Postoje studenti koji su polozili ili slusaju ovaj program pa on ne moze biti obrisan!";
+        }
+
+        if (smerPredmet.getIspiti().size() > 0)
+        {
+            return "Postoje ispiti na ovom programu pa on ne moze biti obrisan!";
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteSmerPredmet(Long id) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        smerPredmetRepository.delete(smerPredmet);
+    }
+
+    @Override
+    public void removeIspitOdPredmeta(Long id,Long id_ispita) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        for(Ispit ispit: smerPredmet.getIspiti() ){
+            if(ispit.getId() == id_ispita){
+                smerPredmet.getIspiti().remove(ispit);
+                break;
+            }
+        }
+        
+    }
+
 }

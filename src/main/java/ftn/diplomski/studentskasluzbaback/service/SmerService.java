@@ -23,4 +23,11 @@ public interface SmerService {
     ArrayList<Ispit> getTrenutneIspiteSmera(Long id_smera);
 
 
+    String checkDelete(Long id);
+
+    void deleteSmer(Long id);
+
+    String checkUpdate(SmerDTO smerDTO);
+
+    SmerDTO updateSmer(SmerDTO smerDTO);
 }

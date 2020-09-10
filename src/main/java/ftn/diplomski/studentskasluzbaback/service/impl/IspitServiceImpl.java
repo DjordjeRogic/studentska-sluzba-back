@@ -222,4 +222,13 @@ public class IspitServiceImpl implements IspitService {
         }
         return studenti;
     }
+
+    @Override
+    public String checkRemoveIspti(Long id) {
+        Ispit ispit = ispitRepository.getOne(id);
+        if(ispit.getStudentiKojiSuPrijavili().size()>0){
+            return "Ispit ne moze biti obrisan jer postoje studenti koji su ga prijavili!";
+        }
+        return null;
+    }
 }

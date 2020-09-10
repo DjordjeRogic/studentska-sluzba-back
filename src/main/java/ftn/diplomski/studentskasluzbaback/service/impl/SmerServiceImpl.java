@@ -108,4 +108,52 @@ public class SmerServiceImpl implements SmerService {
 
         return ret;
     }
+
+    @Override
+    public String checkDelete(Long id) {
+        Smer smer =smerRepository.getOne(id);
+
+        if(smer.getStudenti().size()>0)
+        {
+            return "Smer se ne moze obrisati jer postoje studenti na njemu.";
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public void deleteSmer(Long id) {
+        Smer smer =smerRepository.getOne(id);
+        smerRepository.delete(smer);
+    }
+
+    @Override
+    public String checkUpdate(SmerDTO smerDTO) {
+
+        if(smerRepository.findByNaziv(smerDTO.getNaziv()) != null && smerRepository.findByNaziv(smerDTO.getNaziv()).getId() != smerDTO.getId() ){
+            return "Smer sa tim nazivom vec postoji!";
+        }
+
+        if(smerRepository.findBySkracenica(smerDTO.getSkracenica()) != null && smerRepository.findBySkracenica(smerDTO.getSkracenica()).getId() != smerDTO.getId() ){
+            return "Smer sa tom skracenicom vec postoji!";
+        }
+
+        return null;
+    }
+
+    @Override
+    public SmerDTO updateSmer(SmerDTO smerDTO) {
+        Smer smer =smerRepository.getOne(smerDTO.getId());
+
+        smer.setNaziv(smerDTO.getNaziv());
+        smer.setTrajanjeUSemestrima(smerDTO.getTrajanjeUSemestrima());
+        smer.setObrazovnoPolje(ObrazovnoPolje.valueOf(smerDTO.getObrazovnoPolje()));
+        smer.setSkracenica(smerDTO.getSkracenica());
+
+        smer = smerRepository.save(smer);
+
+
+        return new SmerDTO(smer);
+    }
 }

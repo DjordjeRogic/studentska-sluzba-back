@@ -26,4 +26,14 @@ public interface SmerPredmetService {
     ArrayList<StudentDolasciDTO> uploadStudenteZaDolaske(Long id, MultipartFile file) throws IOException;
 
     void unesiDolaske(Long id, ArrayList<StudentDolasciDTO> studentDolasciDTOS);
+
+    String checkUpdate(SmerPredmetDTO smerPredmetDTO);
+
+    SmerPredmetDTO update(SmerPredmetDTO smerPredmetDTO);
+
+    String checkDelete(Long id);
+
+    void deleteSmerPredmet(Long id);
+
+    void removeIspitOdPredmeta(Long id,Long id_ispita);
 }

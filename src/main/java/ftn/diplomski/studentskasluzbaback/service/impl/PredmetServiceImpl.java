@@ -51,7 +51,17 @@ public class PredmetServiceImpl implements PredmetService {
     }
 
     @Override
-    public String checkNewPredmet(PredmetDTO profesorDTO) {
+    public String checkNewPredmet(PredmetDTO predmetDTO) {
+
+        if(predmetDTO.getId() != null){
+            if (predmetRepository.findByNaziv(predmetDTO.getNaziv()) != null && predmetRepository.findByNaziv(predmetDTO.getNaziv()).getId() != predmetDTO.getId() )
+                return "Predmet sa tim nazivom vec postoji!";
+
+        }else {
+            if (predmetRepository.findByNaziv(predmetDTO.getNaziv()) != null)
+                return "Predmet sa tim nazivom vec postoji!";
+
+        }
         return null;
     }
 
@@ -78,5 +88,36 @@ public class PredmetServiceImpl implements PredmetService {
     @Override
     public Predmet findPredmet(Long id) {
         return predmetRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public PredmetDTO updatePredmet(PredmetDTO predmetDTO) {
+        Predmet predmet = predmetRepository.getOne(predmetDTO.getId());
+        predmet.setNaziv(predmetDTO.getNaziv());
+        predmet.setKategorija(KategorijaPredmeta.valueOf(predmetDTO.getKategorija()));
+        predmet = predmetRepository.save(predmet);
+        return new PredmetDTO(predmet);
+    }
+
+    @Override
+    public String proveriDaLiMozeBitiObrisan(Long id) {
+        String ret ="";
+
+        if(predmetRepository.getOne(id).getSmerovi().size()>0) {
+            ret = "Predmet ne moze biti obrisan jer se predaje na: ";
+
+            for(SmerPredmet smerPredmet:predmetRepository.getOne(id).getSmerovi()){
+                ret += smerPredmet.getSmer().getNaziv()+", ";
+            }
+            ret = ret.substring(0,ret.length()-2);
+            return ret;
+        }
+        return null;
+    }
+
+    @Override
+    public void deletePredmet(Long id) {
+        Predmet predmet = predmetRepository.getOne(id);
+        predmetRepository.delete(predmet);
     }
 }

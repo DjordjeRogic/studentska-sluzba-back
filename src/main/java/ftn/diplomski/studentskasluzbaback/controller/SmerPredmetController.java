@@ -4,6 +4,7 @@ import ftn.diplomski.studentskasluzbaback.dto.SmerDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
 import ftn.diplomski.studentskasluzbaback.dto.StudentDolasciDTO;
 import ftn.diplomski.studentskasluzbaback.dto.StudentRezultatDTO;
+import ftn.diplomski.studentskasluzbaback.service.IspitService;
 import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class SmerPredmetController {
     @Autowired
     private SmerPredmetService smerPredmetService;
 
+    @Autowired
+    private IspitService ispitService;
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postStudijskiProgram(@RequestBody SmerPredmetDTO smerPredmetDTO) {
         System.out.println("Add smerPredmet");
@@ -41,6 +45,43 @@ public class SmerPredmetController {
     public ResponseEntity<?> getProgram(@PathVariable("id")Long id) {
         System.out.println("Studijski program");
         return new ResponseEntity<>(smerPredmetService.getOne(id), HttpStatus.OK);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateStudijskiProgram(@RequestBody SmerPredmetDTO smerPredmetDTO) {
+        System.out.println("Update smerPredmet");
+
+        System.out.println(smerPredmetDTO.getBrojESBPBodova());
+        if(smerPredmetService.checkUpdate(smerPredmetDTO) != null){
+            return new ResponseEntity<>(smerPredmetService.checkUpdate(smerPredmetDTO), HttpStatus.BAD_REQUEST);
+        }
+
+        SmerPredmetDTO smerPredmetDTO1 = smerPredmetService.update(smerPredmetDTO);
+
+        return new ResponseEntity<>(smerPredmetDTO1, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteStudijskiProgram(@PathVariable("id")Long id) {
+        System.out.println("Delete Studijski program");
+
+        if(smerPredmetService.checkDelete(id) != null){
+            return new ResponseEntity<>(smerPredmetService.checkDelete(id), HttpStatus.BAD_REQUEST);
+        }
+        smerPredmetService.deleteSmerPredmet(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}/ispit/{id_ispita}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> removeIspitPrograma(@PathVariable("id")Long id,@PathVariable("id_ispita")Long id_ispita) {
+        System.out.println("removeIspitPrograma program");
+
+        if(ispitService.checkRemoveIspti(id_ispita) != null){
+            return new ResponseEntity<>(ispitService.checkRemoveIspti(id_ispita), HttpStatus.BAD_REQUEST);
+        }
+        smerPredmetService.removeIspitOdPredmeta(id,id_ispita);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}/ispit",produces = MediaType.APPLICATION_JSON_VALUE)
