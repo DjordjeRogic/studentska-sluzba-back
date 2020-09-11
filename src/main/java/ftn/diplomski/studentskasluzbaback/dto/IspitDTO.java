@@ -36,6 +36,8 @@ public class IspitDTO {
 
     public IspitDTO(Ispit ispit) {
         this.id = ispit.getId();
+        System.out.println(ispit.getRok().getFieldDescription());
+        System.out.println(ispit.getRok());
         this.rok = ispit.getRok().getFieldDescription();
         this.datum = ispit.getDatum().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.mestoOdrzavanja = ispit.getMestoOdrzavanja();

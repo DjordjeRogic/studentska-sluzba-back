@@ -369,7 +369,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         smerPredmet.setSemestar(smerPredmetDTO.getSemestar());
         smerPredmet.setSifraStudijskogPrograma(smerPredmetDTO.getSifraStudijskogPrograma());
         smerPredmet.setBrojPredavanjaUGodini(smerPredmetDTO.getBrojPredavanjaUGodini());
-        Profesor profesor = profesorService.findProfesor(smerPredmetDTO.getPredmet().getId());
+        Profesor profesor = profesorService.findProfesor(smerPredmetDTO.getProfesor().getId());
         smerPredmet.setProfesor(profesor);
 
         smerPredmetRepository.save(smerPredmet);

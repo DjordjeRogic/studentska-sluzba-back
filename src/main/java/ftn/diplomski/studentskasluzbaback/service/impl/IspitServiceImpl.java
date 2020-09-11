@@ -59,7 +59,8 @@ public class IspitServiceImpl implements IspitService {
         ispit.setSkolskaGodina(skolskaGodina);
         ispit.setSmerPredmet(smerPredmet);
         ispit.setRok(IspitniRok.valueOf(ispitDTO.getRok()));
-        ispit.setVremeOdrzavanja(LocalTime.parse(ispitDTO.getVremeOdrzavanja()));
+        if(!ispitDTO.getVremeOdrzavanja().isEmpty())
+            ispit.setVremeOdrzavanja(LocalTime.parse(ispitDTO.getVremeOdrzavanja()));
 
         Ispit saved = ispitRepository.save(ispit);
         ispitDTO.setId(saved.getId());
@@ -71,38 +72,54 @@ public class IspitServiceImpl implements IspitService {
     public String checkNewIspit(IspitDTO ispitDTO) {
         SmerPredmet smerPredmet = smerPredmetService.findOne(ispitDTO.getProgramId());
         SkolskaGodina skolskaGodina = skolskaGodinaService.getTrenutnaSkolskaGodina();
-        for(Ispit ispit:smerPredmet.getIspiti()){
-            if(ispit.getDatum().isAfter(skolskaGodina.getPocetakGodine()) && ispit.getDatum().isBefore(skolskaGodina.getKrajGodine()) && ispit.getRok().equals(IspitniRok.valueOf(ispitDTO.getRok()))){
-                return "Ispit u tom roku vec postoji!";
+
+        if(ispitDTO.getId() == null) {
+            for (Ispit ispit : smerPredmet.getIspiti()) {
+                if (ispit.getDatum().isAfter(skolskaGodina.getPocetakGodine()) && ispit.getDatum().isBefore(skolskaGodina.getKrajGodine()) && ispit.getRok().equals(IspitniRok.valueOf(ispitDTO.getRok()))) {
+                    return "Ispit u tom roku vec postoji!";
+                }
+            }
+        }else{
+            Ispit ispitExists= ispitRepository.getOne(ispitDTO.getId());
+            for (Ispit ispit : smerPredmet.getIspiti()) {
+
+                if(ispit.equals(ispitExists))
+                    continue;
+
+                if (ispit.getDatum().isAfter(skolskaGodina.getPocetakGodine()) && ispit.getDatum().isBefore(skolskaGodina.getKrajGodine()) && ispit.getRok().equals(IspitniRok.valueOf(ispitDTO.getRok()))) {
+                    return "Ispit u tom roku vec postoji!";
+                }
             }
         }
 
         IspitniRok ispitniRok = IspitniRok.valueOf(ispitDTO.getRok());
         LocalDate localDate = LocalDate.parse(ispitDTO.getDatum());
 
-        if(ispitDTO.equals(IspitniRok.JAN) || ispitDTO.equals(IspitniRok.FEB)){
+        if(ispitDTO.getRok().equals(IspitniRok.JAN.toString()) || ispitDTO.getRok().equals(IspitniRok.FEB.toString())){
+            System.out.println("JAN ILI FEB");
+            System.out.println(localDate.getMonthValue());
             if(localDate.getMonthValue() >2){
                 return "Ispit u januarsko-februarskom roku se moze zakazati samo u januaru ili februaru";
             }
         }
 
-        if(ispitDTO.equals(IspitniRok.APR)){
+        if(ispitDTO.getRok().equals(IspitniRok.APR.toString())){
             if(localDate.getMonthValue() != 4 ){
                 return "Ispit u aprilskom roku se moze zakazati samo u aprilu";
             }
         }
 
-        if(ispitDTO.equals(IspitniRok.JUN) || ispitDTO.equals(IspitniRok.JUL)){
+        if(ispitDTO.getRok().equals(IspitniRok.JUN.toString()) || ispitDTO.getRok().equals(IspitniRok.JUL.toString())){
             if(localDate.getMonthValue() <6 || localDate.getMonthValue() > 7 ){
                 return "Ispit u junsko-julskom roku se moze zakazati samo u junu ili julu";
             }
         }
-        if(ispitDTO.equals(IspitniRok.SEP) ){
+        if(ispitDTO.getRok().equals(IspitniRok.SEP.toString()) ){
             if(localDate.getMonthValue() >7  || localDate.getMonthValue() <10 ){
                 return "Ispit u septembarskom roku se moze zakazati samo u avgustu ili septembru";
             }
         }
-        if(ispitDTO.equals(IspitniRok.OKT) ){
+        if(ispitDTO.getRok().equals(IspitniRok.OKT.toString()) ){
             if(localDate.getMonthValue() >8  || localDate.getMonthValue() <10 ){
                 return "Ispit u oktobarskom roku se moze zakazati samo u septembru";
             }
@@ -119,10 +136,11 @@ public class IspitServiceImpl implements IspitService {
     public IspitProfesorDTO updateIspitProfesor(IspitProfesorDTO ispitProfesorDTO) {
         Ispit ispit =ispitRepository.getOne(ispitProfesorDTO.getId());
 
-        ispit.setVremeOdrzavanja(LocalTime.parse(ispitProfesorDTO.getVremeOdrzavanja()));
+        if(!ispitProfesorDTO.getVremeOdrzavanja().isEmpty())
+            ispit.setVremeOdrzavanja(LocalTime.parse(ispitProfesorDTO.getVremeOdrzavanja()));
         ispit.setMestoOdrzavanja(ispitProfesorDTO.getMestoOdrzavanja());
-        ispitRepository.save(ispit);
-        return ispitProfesorDTO;
+        ispit=ispitRepository.save(ispit);
+        return new IspitProfesorDTO(ispit);
     }
 
     @Override
@@ -230,5 +248,16 @@ public class IspitServiceImpl implements IspitService {
             return "Ispit ne moze biti obrisan jer postoje studenti koji su ga prijavili!";
         }
         return null;
+    }
+
+    @Override
+    public IspitDTO updateIspit(IspitDTO ispitDTO) {
+        Ispit ispit =ispitRepository.getOne(ispitDTO.getId());
+        ispit.setDatum(LocalDate.parse(ispitDTO.getDatum()));
+        if(!ispitDTO.getVremeOdrzavanja().isEmpty())
+            ispit.setVremeOdrzavanja(LocalTime.parse(ispitDTO.getVremeOdrzavanja()));
+        ispit.setMestoOdrzavanja(ispitDTO.getMestoOdrzavanja());
+        ispit = ispitRepository.save(ispit);
+        return new IspitDTO(ispit);
     }
 }

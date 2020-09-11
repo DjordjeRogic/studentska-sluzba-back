@@ -23,13 +23,13 @@ public class SmerPredmet {
     @Column(name="semestar")
     private Integer semestar;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Smer smer;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Predmet predmet;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Profesor profesor;
 
     @OneToMany(mappedBy = "smerPredmet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

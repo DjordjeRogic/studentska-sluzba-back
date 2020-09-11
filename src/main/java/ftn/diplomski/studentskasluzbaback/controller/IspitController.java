@@ -33,6 +33,17 @@ public class IspitController {
         return new ResponseEntity<>(ispitService.saveNewIspit(ispitDTO), HttpStatus.OK);
     }
 
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@RequestBody IspitDTO ispitDTO) {
+        System.out.println("Update ispit");
+
+        if(ispitService.checkNewIspit(ispitDTO) != null){
+            return new ResponseEntity<>(ispitService.checkNewIspit(ispitDTO), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(ispitService.updateIspit(ispitDTO), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/profesorUpdate",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateIspitProfesor(@RequestBody IspitProfesorDTO ispitProfesorDTO) {
         System.out.println("Update ispit prof");

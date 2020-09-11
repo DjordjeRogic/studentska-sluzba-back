@@ -22,4 +22,6 @@ public interface IspitService {
     ArrayList<StudentRezultatDTO> uploadStudenteZaRezultate(Long id_ispita, MultipartFile file) throws IOException;
 
     String checkRemoveIspti(Long id);
+
+    IspitDTO updateIspit(IspitDTO ispitDTO);
 }
