@@ -73,6 +73,10 @@ public class IspitServiceImpl implements IspitService {
         SmerPredmet smerPredmet = smerPredmetService.findOne(ispitDTO.getProgramId());
         SkolskaGodina skolskaGodina = skolskaGodinaService.getTrenutnaSkolskaGodina();
 
+        if(ispitDTO.getRok() == null){
+            return "Rok mora biti izabran.";
+        }
+
         if(ispitDTO.getId() == null) {
             for (Ispit ispit : smerPredmet.getIspiti()) {
                 if (ispit.getDatum().isAfter(skolskaGodina.getPocetakGodine()) && ispit.getDatum().isBefore(skolskaGodina.getKrajGodine()) && ispit.getRok().equals(IspitniRok.valueOf(ispitDTO.getRok()))) {

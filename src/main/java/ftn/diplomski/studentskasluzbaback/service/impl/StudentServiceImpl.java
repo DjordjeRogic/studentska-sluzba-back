@@ -91,6 +91,9 @@ public class StudentServiceImpl implements StudentService {
         student.setBrojIndexa(brIndexa);
 
         Student saved = studentRepository.save(student);
+
+        ocenaService.kreirajOcene(student,1);
+
         studentDTO.setId(saved.getId());
         studentDTO.setBrojIndexa(saved.getBrojIndexa());
 
@@ -164,6 +167,7 @@ public class StudentServiceImpl implements StudentService {
     public void overiSemestarUlogovan() {
         Student student = ulogovanStudent();
         student.setSemestar(student.getSemestar()+1);
+        ocenaService.kreirajOcene(student,student.getSemestar());
         studentRepository.save(student);
     }
 

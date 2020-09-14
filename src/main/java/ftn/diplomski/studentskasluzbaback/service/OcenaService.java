@@ -14,4 +14,6 @@ public interface OcenaService {
     Ocena pronadjiOcenuOdStudentaZaPredmet(Student student, SmerPredmet smerPredmet);
     void unesiOcene(Long id_ispita,ArrayList<StudentRezultatDTO> studentRezultatDTOS);
     Ocena save(Ocena ocena);
+
+    void kreirajOcene(Student student, int semestar);
 }

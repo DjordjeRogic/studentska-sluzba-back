@@ -95,4 +95,22 @@ public class OcenaServiceImpl implements OcenaService {
         return ocenaRepository.save(ocena);
     }
 
+    @Override
+    public void kreirajOcene(Student student, int semestar) {
+        Smer smer = student.getSmer();
+        for(SmerPredmet smerPredmet: smer.getPredmeti()){
+            if(smerPredmet.getSemestar() == semestar) {
+                Ocena ocena = new Ocena();
+                ocena.setBrojDolazakaNaPredavanja(0);
+                ocena.setBrojBodova(0.0);
+                ocena.setStudent(student);
+                ocena.setOcena(5);
+                ocena.setPolozio(false);
+                ocena.setPotpis(false);
+                ocena.setSmerPredmet(smerPredmet);
+                ocenaRepository.save(ocena);
+            }
+        }
+    }
+
 }
