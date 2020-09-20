@@ -24,4 +24,6 @@ public interface IspitService {
     String checkRemoveIspti(Long id);
 
     IspitDTO updateIspit(IspitDTO ispitDTO);
+
+    void removeIspit(Long id_ispita);
 }

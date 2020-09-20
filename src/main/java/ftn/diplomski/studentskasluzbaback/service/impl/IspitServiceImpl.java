@@ -65,7 +65,7 @@ public class IspitServiceImpl implements IspitService {
         Ispit saved = ispitRepository.save(ispit);
         ispitDTO.setId(saved.getId());
 
-        return ispitDTO;
+        return new IspitDTO(saved);
     }
 
     @Override
@@ -263,5 +263,10 @@ public class IspitServiceImpl implements IspitService {
         ispit.setMestoOdrzavanja(ispitDTO.getMestoOdrzavanja());
         ispit = ispitRepository.save(ispit);
         return new IspitDTO(ispit);
+    }
+
+    @Override
+    public void removeIspit(Long id_ispita) {
+        ispitRepository.delete(ispitRepository.getOne(id_ispita));
     }
 }

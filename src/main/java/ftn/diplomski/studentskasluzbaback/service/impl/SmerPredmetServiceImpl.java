@@ -20,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 @Service
@@ -45,6 +47,9 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
     @Autowired
     private OcenaService ocenaService;
+
+    @Autowired
+    private IspitService ispitService;
 
     @Override
     public SmerPredmet poveziProfesoraSaSmeromIpredmetom(Profesor profesor, Smer smer, Predmet predmet, Integer smestar) {
@@ -136,7 +141,23 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
             year = year+1;
         }
 
-        for(Ispit ispit :smerPredmet.getIspiti()){
+        ArrayList<Ispit> ispits = new ArrayList<>();
+        ispits.addAll(smerPredmet.getIspiti());
+        System.out.println("PRE SORTA");
+        for(Ispit i :ispits){
+            System.out.println(i.getRok());
+        }
+        ispits.sort(new Comparator<Ispit>() {
+            @Override
+            public int compare(Ispit o1, Ispit o2) {
+                return o1.getRok().compareTo(o2.getRok());
+            }
+        });
+        System.out.println("POSLE SORTA");
+        for(Ispit i :ispits){
+            System.out.println(i.getRok());
+        }
+        for(Ispit ispit :ispits){
             if(ispit.getDatum().getYear() == year ){
                 ispitDTOS.add(new IspitDTO(ispit));
             }
@@ -165,7 +186,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 //                if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate)){
 //                    ispits.add(ispit);
 //                }
-
+                System.out.println("MONTH: "+month);
                 //JANUARSKO-FEBRUARSKI
                 if(month < 3){
                     if(ispit.getRok().equals(IspitniRok.JAN) || ispit.getRok().equals(IspitniRok.FEB)){
@@ -196,14 +217,14 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
                 }
                 //SEPTEMBAR
                 if(month > 7 && month<10 ){
-                    if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
+                    if(ispit.getRok().equals(IspitniRok.SEP) || ispit.getRok().equals(IspitniRok.AVG)){
                         if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
                             ispits.add(ispit);
                     }
                 }
                 //OKTOBAR
                 if(month > 8 ){
-                    if(ispit.getRok().equals(IspitniRok.JUN) || ispit.getRok().equals(IspitniRok.JUL)){
+                    if(ispit.getRok().equals(IspitniRok.OKT)){
                         if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate))
                             ispits.add(ispit);
                     }
@@ -403,6 +424,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         for(Ispit ispit: smerPredmet.getIspiti() ){
             if(ispit.getId() == id_ispita){
                 smerPredmet.getIspiti().remove(ispit);
+                smerPredmetRepository.save(smerPredmet);
                 break;
             }
         }

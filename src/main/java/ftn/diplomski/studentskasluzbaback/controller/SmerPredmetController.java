@@ -80,6 +80,7 @@ public class SmerPredmetController {
         if(ispitService.checkRemoveIspti(id_ispita) != null){
             return new ResponseEntity<>(ispitService.checkRemoveIspti(id_ispita), HttpStatus.BAD_REQUEST);
         }
+        ispitService.removeIspit(id_ispita);
         smerPredmetService.removeIspitOdPredmeta(id,id_ispita);
         return new ResponseEntity<>(HttpStatus.OK);
     }

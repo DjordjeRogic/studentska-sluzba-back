@@ -42,7 +42,7 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(ocena.getStudent().getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setSubject("Otvoren nalog");
+        mail.setSubject("Rezultati");
         mail.setText("Uneseni su rezultati iz predmeta "+ocena.getSmerPredmet().getPredmet().getNaziv()+". Osvojili ste "+
                 ocena.getBrojBodova()+" i upisana vam je ocena "+ocena.getOcena());
         javaMailSender.send(mail);

@@ -56,10 +56,18 @@ public class OcenaDTO {
         }
         this.potpis = ocena.isPotpis();
         this.brojDolazakaNaPredavanja = ocena.getBrojDolazakaNaPredavanja();
-        this.ocena = ocena.getOcena();
+        if(ocena.getOcena()==null){
+            this.ocena=5;
+        }else {
+            this.ocena = ocena.getOcena();
+        }
         this.nazivPredmeta = ocena.getSmerPredmet().getPredmet().getNaziv();
         this.sifraPredmeta = ocena.getSmerPredmet().getSifraStudijskogPrograma();
-        this.brojaBodova = ocena.getBrojBodova();
+        if( ocena.getBrojBodova() == null){
+            this.brojaBodova=0;
+        }else {
+            this.brojaBodova = ocena.getBrojBodova();
+        }
         this.semestar = ocena.getSmerPredmet().getSemestar();
     }
 

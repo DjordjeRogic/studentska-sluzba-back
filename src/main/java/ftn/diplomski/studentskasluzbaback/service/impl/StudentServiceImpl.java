@@ -228,7 +228,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ArrayList<Student> getStudentePoSmeruiGodini(Smer smer, SkolskaGodina skolskaGodina) {
-        return (ArrayList<Student>) studentRepository.findAllBySmerAndGodinaUpisa(smer,skolskaGodina);
+        return (ArrayList<Student>) studentRepository.findAllBySmerAndGodinaUpisaOrderByBrojIndexa(smer,skolskaGodina);
     }
 
     @Override
