@@ -30,10 +30,27 @@ public class StudentController {
     @Autowired
     private SkolskaGodinaService skolskaGodinaService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllStudenti() {
+    @GetMapping(value = "/page/{page}/size/{size}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllStudenti(@PathVariable("page")int page,@PathVariable("size")int size) {
         System.out.println("Studenti");
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.getAllStudentsPage(page,size), HttpStatus.OK);
+    }
+    @GetMapping(value = "/{name}/{surname}/{email}/{brojIndexa}/page/{page}/size/{size}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchStudenti(@PathVariable("name")String name,@PathVariable("surname")String surname,@PathVariable("email")String email,@PathVariable("brojIndexa")String brojIndexa,@PathVariable("page")int page,@PathVariable("size")int size) {
+        System.out.println("Studenti");
+        return new ResponseEntity<>(studentService.searchStudentsPagable(name,surname,email,brojIndexa,page,size), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{name}/{surname}/{email}/{brojIndexa}/size",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchSize(@PathVariable("name")String name,@PathVariable("surname")String surname,@PathVariable("email")String email,@PathVariable("brojIndexa")String brojIndexa) {
+        System.out.println("Studenti");
+        return new ResponseEntity<>(studentService.searchStudentsAll(name,surname,email,brojIndexa).size(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/size",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getStudentSize() {
+        System.out.println("Studenti");
+        return new ResponseEntity<>(studentService.getAllStudents().size(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

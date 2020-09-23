@@ -9,6 +9,9 @@ import ftn.diplomski.studentskasluzbaback.repository.StudentRepository;
 import ftn.diplomski.studentskasluzbaback.service.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
@@ -48,6 +51,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ArrayList<StudentDTO> getAllStudents() {
+
         List<Student> students = studentRepository.findAll();
         ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
 
@@ -219,6 +223,72 @@ public class StudentServiceImpl implements StudentService {
 
         studentRepository.save(student);
         return studentDTO;
+    }
+
+    @Override
+    public ArrayList<StudentDTO> getAllStudentsPage(int page, int size) {
+        Pageable pagable = PageRequest.of(page,size);
+        Page<Student> students = studentRepository.findAll(pagable);
+        ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
+
+        for(Student student:students){
+            studentDTOS.add(new StudentDTO(student));
+        }
+
+        return studentDTOS;
+    }
+
+    @Override
+    public ArrayList<StudentDTO> searchStudentsPagable(String name, String surname, String email, String brojIndexa, int page, int size) {
+        if(name.equals("null")){
+            name ="";
+        }
+        if(surname.equals("null")){
+            surname ="";
+        }
+        if(email.equals("null")){
+            email ="";
+        }
+        if(brojIndexa.equals("null")){
+            brojIndexa ="";
+        }
+        System.out.println(name+"/"+surname+"/"+email+"/"+brojIndexa);
+
+        Pageable pagable = PageRequest.of(page,size);
+        Page<Student> students = studentRepository.search(name,surname,email,brojIndexa,pagable);//.findByNameLikeIgnoreCaseAndSurnameLikeIgnoreCaseAndEmailLikeIgnoreCaseAndBrojIndexaLikeIgnoreCase(name,surname,email,brojIndexa,pagable);
+        ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
+
+        for(Student student:students){
+            studentDTOS.add(new StudentDTO(student));
+        }
+
+        return studentDTOS;
+    }
+
+    @Override
+    public ArrayList<StudentDTO> searchStudentsAll(String name, String surname, String email, String brojIndexa) {
+
+        if(name.equals("null")){
+            name ="";
+        }
+        if(surname.equals("null")){
+            surname ="";
+        }
+        if(email.equals("null")){
+            email ="";
+        }
+        if(brojIndexa.equals("null")){
+            brojIndexa ="";
+        }
+        List<Student> students = studentRepository.searchAll(name,surname,email,brojIndexa);//.findByNameLikeIgnoreCaseAndSurnameLikeIgnoreCaseAndEmailLikeIgnoreCaseAndBrojIndexaLikeIgnoreCase(name,surname,email,brojIndexa,pagable);
+        ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
+
+        for(Student student:students){
+            studentDTOS.add(new StudentDTO(student));
+        }
+
+        return studentDTOS;
+
     }
 
     @Override

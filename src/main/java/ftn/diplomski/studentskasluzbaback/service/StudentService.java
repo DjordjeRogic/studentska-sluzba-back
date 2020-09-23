@@ -10,6 +10,7 @@ import ftn.diplomski.studentskasluzbaback.model.Smer;
 import ftn.diplomski.studentskasluzbaback.model.Student;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public interface StudentService {
 
@@ -32,4 +33,8 @@ public interface StudentService {
     String checkUpdateStudent(StudentDTO studentDTO);
     void deleteStudent(Long id);
     StudentDTO updateStudent(StudentDTO studentDTO);
+
+    ArrayList<StudentDTO>  getAllStudentsPage(int page, int size);
+    ArrayList<StudentDTO> searchStudentsPagable(String name, String surname,String email,String brojIndexa,int page, int size);
+    ArrayList<StudentDTO> searchStudentsAll(String name, String surname, String email, String brojIndexa);
 }

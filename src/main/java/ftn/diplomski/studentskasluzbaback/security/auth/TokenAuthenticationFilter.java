@@ -28,10 +28,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        System.out.println("FILTER");
         String email;
         String authToken = tokenUtils.getToken(request);
-        System.out.println(authToken);
 
         if (authToken != null) {
             // uzmi email iz tokena

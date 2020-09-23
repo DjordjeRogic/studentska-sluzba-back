@@ -118,8 +118,8 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         if(smerPredmetDTO.getBrojESBPBodova()<= 0){
             return "Broj ESBP bodova ne moze biti manji ili jednak 0";
         }
-        if((smerService.getBrojESBPzaSemestar(smerPredmetDTO.getSmer().getId(),smerPredmetDTO.getSemestar())+smerPredmetDTO.getBrojESBPBodova()) > 60){
-            return "Semestar ne moze imati vise od 60 ESBP bodova!";
+        if((smerService.getBrojESBPzaSemestar(smerPredmetDTO.getSmer().getId(),smerPredmetDTO.getSemestar())+smerPredmetDTO.getBrojESBPBodova()) > 30){
+            return "Semestar ne moze imati vise od 30 ESBP bodova!";
         }
 
         return null;
@@ -247,7 +247,19 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
     public ArrayList<StudentDolasciDTO> getStudentiDolasci(Long id) {
         SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
         ArrayList<StudentDolasciDTO> studentDTOS = new ArrayList<>();
-        for(Student student: smerPredmet.getSmer().getStudenti()){
+
+        ArrayList<Student> studenti = new ArrayList<>();
+        studenti.addAll(smerPredmet.getSmer().getStudenti());
+
+
+        studenti.sort(new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return o1.getBrojIndexa().compareTo(o2.getBrojIndexa());
+            }
+        });
+
+        for(Student student: studenti){
             if(student.getSemestar() == smerPredmet.getSemestar()){
                 for(Ocena ocena : student.getOcene()) {
                     if(ocena.getSmerPredmet().equals(smerPredmet)) {
@@ -375,6 +387,10 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
     public String checkUpdate(SmerPredmetDTO smerPredmetDTO) {
         SmerPredmet smerPredmet = smerPredmetRepository.getOne(smerPredmetDTO.getId());
 
+        String checkFileds = checkNewSmerPredmet(smerPredmetDTO);
+        if(checkFileds != null){
+            return checkFileds;
+        }
 
         if(smerPredmetRepository.findBySifraStudijskogPrograma(smerPredmet.getSifraStudijskogPrograma()) != null && smerPredmetRepository.findBySifraStudijskogPrograma(smerPredmet.getSifraStudijskogPrograma())!= smerPredmet){
             return "Studijski program sa tom sifrom vec postoji!";

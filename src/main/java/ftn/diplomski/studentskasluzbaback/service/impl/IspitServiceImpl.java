@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 @Service
@@ -151,7 +152,20 @@ public class IspitServiceImpl implements IspitService {
     public ArrayList<StudentRezultatDTO> getStudenteZaRezultate(Long id) {
         Ispit ispit = ispitRepository.getOne(id);
         ArrayList<StudentRezultatDTO> studentRezultatDTOS = new ArrayList<>();
-        for(Student student: ispit.getStudentiKojiSuPrijavili()){
+
+
+        ArrayList<Student> studenti = new ArrayList<>();
+        studenti.addAll(ispit.getStudentiKojiSuPrijavili());
+
+
+        studenti.sort(new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return o1.getBrojIndexa().compareTo(o2.getBrojIndexa());
+            }
+        });
+
+        for(Student student: studenti){
             studentRezultatDTOS.add(new StudentRezultatDTO(student));
         }
         return studentRezultatDTOS;
