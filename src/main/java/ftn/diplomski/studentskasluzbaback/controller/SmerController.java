@@ -20,26 +20,21 @@ public class SmerController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getSmerovi() {
-        System.out.println("Smerovi");
         return new ResponseEntity<>(smerService.getAllSmerovi(), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postSmer(@RequestBody SmerDTO smerDTO) {
-        System.out.println("Add Smer");
-
         //TODO CHECK
        /* String checkMessage = smerService.checkNewSmer(smerDTO);
         if(checkMessage != null){
             return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
         }*/
-
         return new ResponseEntity<>(smerService.saveNewSmer(smerDTO), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteSmer(@PathVariable("id")Long id) {
-        System.out.println("Delete smer");
         String checkMessage = smerService.checkDelete(id);
         if(checkMessage != null){
             return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
@@ -50,8 +45,6 @@ public class SmerController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSmer(@RequestBody SmerDTO smerDTO) {
-        System.out.println("Update Smer");
-
         String checkMessage = smerService.checkUpdate(smerDTO);
         if(checkMessage != null){
             return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
@@ -62,20 +55,17 @@ public class SmerController {
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getSmer(@PathVariable("id")Long id) {
-        System.out.println("Predmeti od smera");
         return new ResponseEntity<>(smerService.getSmer(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}/predmeti",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPredmetiOdSmera(@PathVariable("id")Long id) {
-        System.out.println("Predmeti od smera: "+id);
         ArrayList<SmerPredmetDTO> ret = smerService.getPredmetiOdSmera(id);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/predmet",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> dodajPredmetSmeru(@PathVariable("id")Long id) {
-        System.out.println("Predmeti od smera: "+id);
         ArrayList<SmerPredmetDTO> ret = smerService.getPredmetiOdSmera(id);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
@@ -83,7 +73,6 @@ public class SmerController {
 
     @GetMapping(value = "/{id}/predmeti/trenutniIspiti",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTrenutniIspitiSmera(@PathVariable("id")Long id) {
-        System.out.println("Trenutni isoiti od smera: "+id);
         ArrayList<SmerPredmetDTO> ret = smerService.getPredmetiOdSmera(id);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }

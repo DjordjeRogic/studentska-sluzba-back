@@ -31,11 +31,8 @@ public class SkolskaGodinaController {
     @Scheduled(cron = "${pocetakSkolskeGodine.cron}")
     @Transactional
     public void otvoriNovuSkolskuGodinu(){
-        System.out.println("trigerovan");
         SkolskaGodina skolskaGodina= skolskaGodinaService.getTrenutnaSkolskaGodina();
         SkolskaGodina novaSkolskaGodina = new SkolskaGodina();
-
-        System.out.println("Skolska godina : "+skolskaGodina.getId());
 
         novaSkolskaGodina.setPocetakGodine(skolskaGodina.getPocetakGodine().plusYears(1));
         novaSkolskaGodina.setKrajGodine(skolskaGodina.getKrajGodine().plusYears(1));
@@ -45,9 +42,7 @@ public class SkolskaGodinaController {
         novaSkolskaGodina.setKrajOvereZimskog(skolskaGodina.getKrajOvereZimskog().plusYears(1));
 
         novaSkolskaGodina = skolskaGodinaService.save(novaSkolskaGodina);
-        System.out.println("Ispiti");
         for(Ispit ispit : skolskaGodina.getIspiti()){
-            System.out.println("Ispit: "+ispit.getId());
             Ispit newIspit = new Ispit();
             newIspit.setUneseniRezultati(false);
             newIspit.setRok(ispit.getRok());
@@ -69,7 +64,5 @@ public class SkolskaGodinaController {
             }
 
         }
-        System.out.println("kraj");
-
     }
 }

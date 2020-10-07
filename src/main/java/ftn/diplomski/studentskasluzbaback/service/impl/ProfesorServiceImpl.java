@@ -168,9 +168,11 @@ public class ProfesorServiceImpl implements ProfesorService {
 
         for(SmerPredmet smerPredmet:profesor.getPredmeti()){
             for(Ispit ispit:smerPredmet.getIspiti()) {
-                if(!ispit.isUneseniRezultati()) {
-                    if (ispit.getDatum().isAfter(minDate) && ispit.getDatum().isBefore(LocalDate.now())) {
-                        ispiti.add(new IspitProfesorDTO(ispit));
+                if(ispit.getProfesor().equals(profesor)) {
+                    if (!ispit.isUneseniRezultati()) {
+                        if (ispit.getDatum().isAfter(minDate) && ispit.getDatum().isBefore(LocalDate.now())) {
+                            ispiti.add(new IspitProfesorDTO(ispit));
+                        }
                     }
                 }
             }
@@ -200,6 +202,11 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Override
     public String checkUpdateProfesor(ProfesorDTO profesorDTO) {
         return null;
+    }
+
+    @Override
+    public Profesor save(Profesor profesor) {
+        return profesorRepository.save(profesor);
     }
 
 

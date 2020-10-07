@@ -4,15 +4,9 @@ import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
 import ftn.diplomski.studentskasluzbaback.dto.IspitProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.dto.StudentRezultatDTO;
 import ftn.diplomski.studentskasluzbaback.enumeration.IspitniRok;
-import ftn.diplomski.studentskasluzbaback.model.Ispit;
-import ftn.diplomski.studentskasluzbaback.model.SkolskaGodina;
-import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
-import ftn.diplomski.studentskasluzbaback.model.Student;
+import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.IspitRepository;
-import ftn.diplomski.studentskasluzbaback.service.IspitService;
-import ftn.diplomski.studentskasluzbaback.service.SkolskaGodinaService;
-import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
-import ftn.diplomski.studentskasluzbaback.service.StudentService;
+import ftn.diplomski.studentskasluzbaback.service.*;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -46,6 +40,9 @@ public class IspitServiceImpl implements IspitService {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private ProfesorService  profesorService;
 
     @Override
     public IspitDTO saveNewIspit(IspitDTO ispitDTO) {
@@ -101,8 +98,6 @@ public class IspitServiceImpl implements IspitService {
         LocalDate localDate = LocalDate.parse(ispitDTO.getDatum());
 
         if(ispitDTO.getRok().equals(IspitniRok.JAN.toString()) || ispitDTO.getRok().equals(IspitniRok.FEB.toString())){
-            System.out.println("JAN ILI FEB");
-            System.out.println(localDate.getMonthValue());
             if(localDate.getMonthValue() >2){
                 return "Ispit u januarsko-februarskom roku se moze zakazati samo u januaru ili februaru";
             }
@@ -219,11 +214,6 @@ public class IspitServiceImpl implements IspitService {
         HSSFSheet sheet = rezultati.getSheetAt(0);
         HSSFRow row = sheet.getRow(0);
 
-        System.out.println(row.getCell(0));
-        System.out.println(row.getCell(1));
-        System.out.println(row.getCell(2));
-        System.out.println(row.getCell(3));
-
         String brojIndexa="";
         double bodovi=0;
         HSSFCell cell =row.getCell(0);
@@ -238,11 +228,6 @@ public class IspitServiceImpl implements IspitService {
 
             brojIndexa = row.getCell(2).getStringCellValue();
             bodovi = row.getCell(3).getNumericCellValue();
-
-            System.out.println(row.getCell(0));
-            System.out.println(row.getCell(1));
-            System.out.println(row.getCell(2));
-            System.out.println(row.getCell(3));
 
             //nesipravan broj bodova preskoci
             if(bodovi > 100 || bodovi<0)
@@ -275,6 +260,8 @@ public class IspitServiceImpl implements IspitService {
         if(!ispitDTO.getVremeOdrzavanja().isEmpty())
             ispit.setVremeOdrzavanja(LocalTime.parse(ispitDTO.getVremeOdrzavanja()));
         ispit.setMestoOdrzavanja(ispitDTO.getMestoOdrzavanja());
+        Profesor profesor = profesorService.findProfesor(ispitDTO.getProfesor().getId());
+        ispit.setProfesor(profesor);
         ispit = ispitRepository.save(ispit);
         return new IspitDTO(ispit);
     }

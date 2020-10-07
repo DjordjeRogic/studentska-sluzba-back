@@ -89,7 +89,7 @@ public class StudentServiceImpl implements StudentService {
 
         int brojStudenta = getStudentePoSmeruiGodini(smer,skolskaGodina).size()+1;
 
-        String brIndexa = smer.getSkracenica() +brojStudenta +"-"+skolskaGodina.getKrajGodine().getYear();
+        String brIndexa = smer.getSkracenica().toLowerCase() +brojStudenta +"-"+skolskaGodina.getKrajGodine().getYear();
 
         student.setGodinaUpisa(skolskaGodina);
         student.setBrojIndexa(brIndexa);
@@ -178,12 +178,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ArrayList<OcenaDTO> getOceneUlogovanogStudenta() {
         Student student = ulogovanStudent();
-        System.out.println("Student: "+ student.getId());
         ArrayList<OcenaDTO> ocene = new ArrayList<>();
-        System.out.println("Ocene: "+ student.getOcene().size());
         for(Ocena ocena:student.getOcene()){
-            System.out.println("Ocena: "+ ocena.getId());
-
             ocene.add(new OcenaDTO(ocena));
         }
 
@@ -252,8 +248,6 @@ public class StudentServiceImpl implements StudentService {
         if(brojIndexa.equals("null")){
             brojIndexa ="";
         }
-        System.out.println(name+"/"+surname+"/"+email+"/"+brojIndexa);
-
         Pageable pagable = PageRequest.of(page,size);
         Page<Student> students = studentRepository.search(name,surname,email,brojIndexa,pagable);//.findByNameLikeIgnoreCaseAndSurnameLikeIgnoreCaseAndEmailLikeIgnoreCaseAndBrojIndexaLikeIgnoreCase(name,surname,email,brojIndexa,pagable);
         ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
@@ -310,8 +304,6 @@ public class StudentServiceImpl implements StudentService {
         ArrayList<Ispit> ispiti = smerService.getTrenutneIspiteSmera(student.getSmer().getId());
         ArrayList<IspitStudentDTO> ret = new ArrayList<>();
 
-
-
         for(Ispit ispit: ispiti){
             SmerPredmet smerPredmet =smerPredmetService.findOne(ispit.getSmerPredmet().getId());
             Ocena ocena = ocenaService.pronadjiOcenuOdStudentaZaPredmet(student,smerPredmet);
@@ -324,9 +316,9 @@ public class StudentServiceImpl implements StudentService {
             if(student.getPrijavljeniIspiti().contains(ispit)){
                 continue;
             }
-            if(ispit.getSmerPredmet().getSemestar() > student.getSemestar())
+            if(ispit.getSmerPredmet().getSemestar() > student.getSemestar()) {
                 continue;
-
+            }
             ret.add(new IspitStudentDTO(ispit));
         }
 

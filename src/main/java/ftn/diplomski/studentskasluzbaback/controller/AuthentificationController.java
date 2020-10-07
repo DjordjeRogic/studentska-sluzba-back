@@ -46,7 +46,6 @@ public class AuthentificationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) throws AuthenticationException, IOException {
-        System.out.println("Pogodio login" );
         if(!checkMail(authenticationRequest.getEmail())) {
             return new ResponseEntity<>("Invalid email", HttpStatus.BAD_REQUEST);
         }
@@ -82,8 +81,7 @@ public class AuthentificationController {
             String jwt = tokenUtils.generateToken(user1.getEmail());
             int expiresIn = tokenUtils.getExpiredIn();
 
-            System.out.println(jwt);
-            System.out.println(user.getEmail());
+
 
             return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 

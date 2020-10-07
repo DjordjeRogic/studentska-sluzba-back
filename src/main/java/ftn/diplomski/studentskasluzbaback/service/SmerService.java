@@ -19,7 +19,7 @@ public interface SmerService {
     ArrayList<SmerPredmetDTO> getPredmetiOdSmera(Long id);
     SmerDTO getSmer(Long id);
     Smer findSmer(Long id);
-    Integer getBrojESBPzaSemestar(Long id_smera,Integer brojSemestra);
+    Integer getBrojESBPzaSemestar(Long id_smera,Integer brojSemestra,Long id_smer_predmeta);
     ArrayList<Ispit> getTrenutneIspiteSmera(Long id_smera);
 
 

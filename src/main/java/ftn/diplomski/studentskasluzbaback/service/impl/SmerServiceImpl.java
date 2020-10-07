@@ -55,9 +55,7 @@ public class SmerServiceImpl implements SmerService {
 
     @Override
     public ArrayList<SmerPredmetDTO> getPredmetiOdSmera(Long id) {
-        System.out.println("USAO PREDMETI SMERA");
         Smer smer = smerRepository.findById(id).orElse(null);
-        System.out.println("SMER: "+ smer.getNaziv() );
         ArrayList<SmerPredmetDTO> ret = new ArrayList<>();
         for(SmerPredmet smerPredmet: smer.getPredmeti()){
             ret.add(new SmerPredmetDTO(smerPredmet));
@@ -81,16 +79,15 @@ public class SmerServiceImpl implements SmerService {
     }
 
     @Override
-    public Integer getBrojESBPzaSemestar(Long id_smera, Integer brojSemestra) {
+    public Integer getBrojESBPzaSemestar(Long id_smera, Integer brojSemestra,Long id_smer_predmeta) {
         Integer rez =0;
         Smer smer = findSmer(id_smera);
 
         for(SmerPredmet smerPredmet:smer.getPredmeti()){
-            if(smerPredmet.getSemestar() == brojSemestra){
+            if(smerPredmet.getSemestar() == brojSemestra && smerPredmet.getId() != id_smer_predmeta){
                 rez+=smerPredmet.getBrojESBPBodova();
             }
         }
-
         return rez;
     }
 

@@ -1,6 +1,7 @@
 package ftn.diplomski.studentskasluzbaback.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,8 +30,11 @@ public class SmerPredmet {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Predmet predmet;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Profesor profesor;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "profesor_smerpredmet",
+            joinColumns = @JoinColumn(name = "smer_predmet_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "profesor_id", referencedColumnName = "id"))
+    private Set<Profesor> profesori = new HashSet<>();
 
     @OneToMany(mappedBy = "smerPredmet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Ispit> ispiti;
@@ -71,12 +75,12 @@ public class SmerPredmet {
         this.predmet = predmet;
     }
 
-    public Profesor getProfesor() {
-        return profesor;
+    public Set<Profesor> getProfesori() {
+        return profesori;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setProfesori(Set<Profesor> profesori) {
+        this.profesori = profesori;
     }
 
     public String getSifraStudijskogPrograma() {

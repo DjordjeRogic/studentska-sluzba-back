@@ -26,7 +26,6 @@ public class StudentRezultatDTO {
         this.name = student.getName();
         this.surname = student.getSurname();
         this.brojIndexa=student.getBrojIndexa();
-        System.out.println("Broj indexa: "+ student.getBrojIndexa());
     }
 
     public Long getId() {

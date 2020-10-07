@@ -1,14 +1,17 @@
 package ftn.diplomski.studentskasluzbaback.dto;
 
 import ftn.diplomski.studentskasluzbaback.model.Predmet;
+import ftn.diplomski.studentskasluzbaback.model.Profesor;
 import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
+
+import java.util.ArrayList;
 
 public class SmerPredmetDTO {
 
     private  Long id;
     private SmerDTO smer;
     private PredmetDTO predmet;
-    private ProfesorDTO profesor;
+    private ArrayList<ProfesorDTO> profesori = new ArrayList<>();
     private Integer semestar;
     private Integer brojPredavanjaUGodini;
     private Integer brojESBPBodova;
@@ -17,11 +20,11 @@ public class SmerPredmetDTO {
     public SmerPredmetDTO() {
     }
 
-    public SmerPredmetDTO(Long id,SmerDTO smer, PredmetDTO predmet, ProfesorDTO profesor, Integer semestar, Integer brojPredavanjaUGodini, Integer brojESBPBodova,String sifraStudijskogPrograma) {
+    public SmerPredmetDTO(Long id,SmerDTO smer, PredmetDTO predmet, ArrayList<ProfesorDTO>  profesori, Integer semestar, Integer brojPredavanjaUGodini, Integer brojESBPBodova,String sifraStudijskogPrograma) {
         this.id = id;
         this.smer = smer;
         this.predmet = predmet;
-        this.profesor = profesor;
+        this.profesori= profesori;
         this.semestar = semestar;
         this.brojPredavanjaUGodini = brojPredavanjaUGodini;
         this.brojESBPBodova = brojESBPBodova;
@@ -29,14 +32,11 @@ public class SmerPredmetDTO {
     }
 
     public SmerPredmetDTO(SmerPredmet smerPredmet) {
-        System.out.println("DTO SMERPREDMET");
-        System.out.println(smerPredmet.getId());
         this.smer = new SmerDTO(smerPredmet.getSmer());
-        System.out.println(smerPredmet.getSmer().getNaziv());
         this.predmet = new PredmetDTO(smerPredmet.getPredmet());
-        System.out.println(smerPredmet.getPredmet().getNaziv());
-        this.profesor = new ProfesorDTO(smerPredmet.getProfesor());
-        System.out.println(smerPredmet.getProfesor().getName());
+        for(Profesor profesor:smerPredmet.getProfesori()){
+            this.profesori.add(new ProfesorDTO(profesor));
+        }
         this.semestar = smerPredmet.getSemestar();
         this.brojPredavanjaUGodini = smerPredmet.getBrojPredavanjaUGodini();
         this.brojESBPBodova = smerPredmet.getBrojESBPBodova();
@@ -60,12 +60,12 @@ public class SmerPredmetDTO {
         this.predmet = predmet;
     }
 
-    public ProfesorDTO getProfesor() {
-        return profesor;
+    public ArrayList<ProfesorDTO> getProfesori() {
+        return profesori;
     }
 
-    public void setProfesor(ProfesorDTO profesor) {
-        this.profesor = profesor;
+    public void setProfesori(ArrayList<ProfesorDTO> profesori) {
+        this.profesori = profesori;
     }
 
     public Integer getSemestar() {

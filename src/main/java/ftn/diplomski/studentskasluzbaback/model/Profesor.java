@@ -9,8 +9,11 @@ public class Profesor extends User {
     @Column(name="sifraProfesora", unique = true)
     private String sifraProfesora;
 
-    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "profesori",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<SmerPredmet> predmeti;
+
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Ispit> ispiti;
 
     public String getSifraProfesora() {
         return sifraProfesora;

@@ -38,7 +38,11 @@ public class Ispit {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private SmerPredmet smerPredmet;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Profesor profesor;
+
+
+    @ManyToMany(mappedBy = "prijavljeniIspiti",cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Student> studentiKojiSuPrijavili;
 
     public Ispit() {
@@ -114,6 +118,14 @@ public class Ispit {
 
     public void setUneseniRezultati(boolean uneseniRezultati) {
         this.uneseniRezultati = uneseniRezultati;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 }
 

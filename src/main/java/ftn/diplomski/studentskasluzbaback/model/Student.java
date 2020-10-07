@@ -25,6 +25,9 @@ public class Student extends User {
     private Smer smer;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "ispit_student_prijavio",
+            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "ispit_id", referencedColumnName = "id"))
     private Set<Ispit> prijavljeniIspiti;
 
     public Student() {

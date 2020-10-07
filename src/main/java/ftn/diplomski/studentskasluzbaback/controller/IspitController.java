@@ -24,57 +24,43 @@ public class IspitController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postIspit(@RequestBody IspitDTO ispitDTO) {
-        System.out.println("Add Ispit");
-
         if(ispitService.checkNewIspit(ispitDTO) != null){
             return new ResponseEntity<>(ispitService.checkNewIspit(ispitDTO), HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(ispitService.saveNewIspit(ispitDTO), HttpStatus.OK);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> update(@RequestBody IspitDTO ispitDTO) {
-        System.out.println("Update ispit");
-
         if(ispitService.checkNewIspit(ispitDTO) != null){
             return new ResponseEntity<>(ispitService.checkNewIspit(ispitDTO), HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(ispitService.updateIspit(ispitDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/profesorUpdate",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateIspitProfesor(@RequestBody IspitProfesorDTO ispitProfesorDTO) {
-        System.out.println("Update ispit prof");
-
         return new ResponseEntity<>(ispitService.updateIspitProfesor(ispitProfesorDTO), HttpStatus.OK);
     }
 
     @GetMapping(value="/{id}/student",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> studentiKojiSuPrijaviliIspit(@PathVariable("id")Long id) {
-        System.out.println("Studenti rezultati");
         return new ResponseEntity<>(ispitService.getStudenteZaRezultate(id), HttpStatus.OK);
     }
 
     @GetMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getIspit(@PathVariable("id")Long id) {
-        System.out.println("Get one ispit");
         return new ResponseEntity<>(new IspitProfesorDTO(ispitService.getOne(id)), HttpStatus.OK);
     }
 
 
     @GetMapping(value="/{id}/student/download",produces ="application/vnd.ms-excel")
     public ResponseEntity<?> studentiKojiSuPrijaviliIspitDownload(@PathVariable("id")Long id) throws IOException {
-        System.out.println("Studenti rezultati");
-
         return new ResponseEntity<>(ispitService.downloadStudenteZaRezultate(id), HttpStatus.OK);
     }
 
     @PostMapping(value="/{id}/student/upload")
     public ResponseEntity<?> studentiKojiSuPrijaviliIspitUpload(@PathVariable("id")Long id,@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println("Studenti rezultati");
-
         return new ResponseEntity<>(ispitService.uploadStudenteZaRezultate(id,file), HttpStatus.OK);
     }
 }

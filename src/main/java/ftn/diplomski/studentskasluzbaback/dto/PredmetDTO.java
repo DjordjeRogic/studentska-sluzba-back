@@ -31,11 +31,8 @@ public class PredmetDTO {
     }
 
     public PredmetDTO(Predmet predmet) {
-        System.out.println(predmet.getId());
         this.id = predmet.getId();
-        System.out.println(predmet.getNaziv());
         this.naziv = predmet.getNaziv();
-        System.out.println(predmet.getKategorija().getFieldDescription());
         this.kategorija = predmet.getKategorija().getFieldDescription();
     }
 

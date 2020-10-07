@@ -22,8 +22,6 @@ public class OcenaController {
 
     @PutMapping(value = "/ispit/{id}/rezultatiIspita", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postIspit(@PathVariable("id")Long id,@RequestBody ArrayList<StudentRezultatDTO> studentRezultatDTOS) {
-        System.out.println("Add Ispit");
-
         ocenaService.unesiOcene(id,studentRezultatDTOS);
 
         return new ResponseEntity<>(HttpStatus.OK);

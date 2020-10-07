@@ -1,9 +1,6 @@
 package ftn.diplomski.studentskasluzbaback.service;
 
-import ftn.diplomski.studentskasluzbaback.dto.IspitDTO;
-import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
-import ftn.diplomski.studentskasluzbaback.dto.StudentDTO;
-import ftn.diplomski.studentskasluzbaback.dto.StudentDolasciDTO;
+import ftn.diplomski.studentskasluzbaback.dto.*;
 import ftn.diplomski.studentskasluzbaback.model.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,4 +33,6 @@ public interface SmerPredmetService {
     void deleteSmerPredmet(Long id);
 
     void removeIspitOdPredmeta(Long id,Long id_ispita);
+
+    ArrayList<ProfesorDTO> getProfesori(Long id);
 }

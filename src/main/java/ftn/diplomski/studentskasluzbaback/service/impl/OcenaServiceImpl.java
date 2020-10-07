@@ -34,13 +34,11 @@ public class OcenaServiceImpl implements OcenaService {
 
     @Override
     public void unesiOcene(Long id_ispita, ArrayList<StudentRezultatDTO> studentRezultatDTOS) {
-        System.out.println("UNOS OCENE");
         Ispit ispit = ispitService.getOne(id_ispita);
 
         for(StudentRezultatDTO studentRezultatDTO :studentRezultatDTOS) {
 
             Student student = studentService.findStudent(studentRezultatDTO.getId());
-            System.out.println("Studentdto: "+studentRezultatDTO.getId());
             Ocena ocena = pronadjiOcenuOdStudentaZaPredmet(student,ispit.getSmerPredmet());
 
             if(ocena == null){
@@ -59,7 +57,6 @@ public class OcenaServiceImpl implements OcenaService {
                 ocena.setDatumPolaganja(ispit.getDatum());
                 ocena.setPolozio(true);
 
-                System.out.println("Student: "+student.getId());
                 ocena.setStudent(student);
 
 

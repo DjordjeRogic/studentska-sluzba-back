@@ -23,20 +23,16 @@ public class ProfesorController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProfesori() {
-        System.out.println("Profesori");
         return new ResponseEntity<>(profesorService.getAllProfesors(), HttpStatus.OK);
     }
 
     @GetMapping(value ="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProfesor(@PathVariable("id")Long id) {
-        System.out.println("Profesori");
         return new ResponseEntity<>(profesorService.getProfesor(id), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postProfesor(@RequestBody ProfesorDTO profesorDTO) {
-        System.out.println("Add Profesor");
-
         String checkMessage = profesorService.checkNewProfesor(profesorDTO);
         if(checkMessage != null){
             return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
@@ -47,7 +43,6 @@ public class ProfesorController {
 
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteProfesor(@PathVariable("id")Long id) {
-        System.out.println("Delete profesor");
         if(profesorService.proveriDaLiProfesorMozeBitiObrisan(id) != null){
             return new ResponseEntity<>(profesorService.proveriDaLiProfesorMozeBitiObrisan(id), HttpStatus.BAD_REQUEST);
         }
@@ -56,8 +51,6 @@ public class ProfesorController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateProfesor(@RequestBody ProfesorDTO profesorDTO) {
-        System.out.println("Add Profesor");
-
         String checkMessage = profesorService.checkUpdateProfesor(profesorDTO);
         if(checkMessage != null){
             return new ResponseEntity<>(checkMessage, HttpStatus.BAD_REQUEST);
@@ -68,19 +61,16 @@ public class ProfesorController {
 
     @GetMapping(value = "/ulogovan/predmet/ispit",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getIspitiOdProfesora() {
-        System.out.println("Ispsiti profesor");
         return new ResponseEntity<>(profesorService.getIspiteKodUlogovanogProfesora(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/ulogovan/predmet/ispit/zaUnosRezultata",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getZavrseniIspitiOdProfesora() {
-        System.out.println("Ispsiti profesor");
         return new ResponseEntity<>(profesorService.getIspitiOdProfesoraZaUnosOcene(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/ulogovan/predmet",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPredmetiOdProfesora() {
-        System.out.println("Ispsiti profesor");
         return new ResponseEntity<>(profesorService.getPredmetiOdProfesora(), HttpStatus.OK);
     }
 }

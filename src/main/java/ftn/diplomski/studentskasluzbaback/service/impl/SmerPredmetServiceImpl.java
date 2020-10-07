@@ -19,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
 @Service
 public class SmerPredmetServiceImpl implements SmerPredmetService {
@@ -60,23 +57,17 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
     public SmerPredmetDTO kreirajStudijskiProgram(SmerPredmetDTO smerPredmetDTO) {
         SmerPredmet smerPredmet = new SmerPredmet();
 
-
-        System.out.println("semestar : "+ smerPredmetDTO.getSemestar());
-        System.out.println("brojPredavanjaUGodini : "+ smerPredmetDTO.getBrojPredavanjaUGodini());
-        System.out.println("brojESBPBodova : "+ smerPredmetDTO.getBrojESBPBodova());
-        System.out.println("Smer : "+ smerPredmetDTO.getSmer().getId());
-        System.out.println("Profesor : "+ smerPredmetDTO.getProfesor().getId());
-        System.out.println("Predmet : "+ smerPredmetDTO.getPredmet().getId());
-
-
-
         Smer smer = smerService.findSmer(smerPredmetDTO.getSmer().getId());
         Predmet predmet = predmetService.findPredmet(smerPredmetDTO.getPredmet().getId());
-        Profesor profesor = profesorService.findProfesor(smerPredmetDTO.getProfesor().getId());
+
+        for(ProfesorDTO profesorDTO: smerPredmetDTO.getProfesori()) {
+            Profesor profesor = profesorService.findProfesor(profesorDTO.getId());
+            smerPredmet.getProfesori().add(profesor);
+        }
 
         smerPredmet.setSmer(smer);
         smerPredmet.setPredmet(predmet);
-        smerPredmet.setProfesor(profesor);
+
         smerPredmet.setBrojESBPBodova(smerPredmetDTO.getBrojESBPBodova());
         smerPredmet.setBrojPredavanjaUGodini(smerPredmetDTO.getBrojPredavanjaUGodini());
       //  smerPredmet.setSemestar(smerPredmetDTO.getSemestar());
@@ -97,7 +88,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         if(smerPredmetDTO.getSmer() == null){
             return "Smer mora biti izabran!";
         }
-        if(smerPredmetDTO.getProfesor() == null){
+        if(smerPredmetDTO.getProfesori() == null){
             return "Profesor mora biti izabran!";
         }
         if(smerPredmetDTO.getSifraStudijskogPrograma() == null){
@@ -118,7 +109,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         if(smerPredmetDTO.getBrojESBPBodova()<= 0){
             return "Broj ESBP bodova ne moze biti manji ili jednak 0";
         }
-        if((smerService.getBrojESBPzaSemestar(smerPredmetDTO.getSmer().getId(),smerPredmetDTO.getSemestar())+smerPredmetDTO.getBrojESBPBodova()) > 30){
+        if((smerService.getBrojESBPzaSemestar(smerPredmetDTO.getSmer().getId(),smerPredmetDTO.getSemestar(),smerPredmetDTO.getId())+smerPredmetDTO.getBrojESBPBodova()) > 30){
             return "Semestar ne moze imati vise od 30 ESBP bodova!";
         }
 
@@ -143,20 +134,14 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
         ArrayList<Ispit> ispits = new ArrayList<>();
         ispits.addAll(smerPredmet.getIspiti());
-        System.out.println("PRE SORTA");
-        for(Ispit i :ispits){
-            System.out.println(i.getRok());
-        }
+
         ispits.sort(new Comparator<Ispit>() {
             @Override
             public int compare(Ispit o1, Ispit o2) {
                 return o1.getRok().compareTo(o2.getRok());
             }
         });
-        System.out.println("POSLE SORTA");
-        for(Ispit i :ispits){
-            System.out.println(i.getRok());
-        }
+
         for(Ispit ispit :ispits){
             if(ispit.getDatum().getYear() == year ){
                 ispitDTOS.add(new IspitDTO(ispit));
@@ -186,7 +171,6 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 //                if(ispit.getDatum().isAfter(LocalDate.now()) && ispit.getDatum().isBefore(minDate)){
 //                    ispits.add(ispit);
 //                }
-                System.out.println("MONTH: "+month);
                 //JANUARSKO-FEBRUARSKI
                 if(month < 3){
                     if(ispit.getRok().equals(IspitniRok.JAN) || ispit.getRok().equals(IspitniRok.FEB)){
@@ -306,7 +290,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
     @Override
     public ArrayList<StudentDolasciDTO> uploadStudenteZaDolaske(Long id, MultipartFile file) throws IOException {
-        System.out.println("UPLOAD");
+
         SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
         ArrayList<StudentDolasciDTO> studenti = getStudentiDolasci(id);
 
@@ -314,11 +298,6 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
         HSSFSheet sheet = rezultati.getSheetAt(0);
         HSSFRow row = sheet.getRow(0);
-
-        System.out.println(row.getCell(0));
-        System.out.println(row.getCell(1));
-        System.out.println(row.getCell(2));
-        System.out.println(row.getCell(3));
 
         String brojIndexa="";
         int dolasci=0;
@@ -334,11 +313,6 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
 
             brojIndexa = row.getCell(2).getStringCellValue();
             dolasci = (int) row.getCell(3).getNumericCellValue();
-
-            System.out.println(row.getCell(0));
-            System.out.println(row.getCell(1));
-            System.out.println(row.getCell(2));
-            System.out.println(row.getCell(3));
 
             //nesipravan broj bodova preskoci
             if(dolasci > smerPredmet.getBrojPredavanjaUGodini() || dolasci<0)
@@ -359,16 +333,9 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
     public void unesiDolaske(Long id, ArrayList<StudentDolasciDTO> studentDolasciDTOS) {
         SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
 
-        System.out.println("**DOLASCI**");
-
         for(StudentDolasciDTO studentDTO: studentDolasciDTOS){
             Student student = studentService.findStudent(studentDTO.getId());
             for(Ocena ocena : student.getOcene()){
-                System.out.println(ocena.getId());
-                System.out.println(ocena.getSmerPredmet().getPredmet().getNaziv());
-                System.out.println(smerPredmet.getPredmet().getNaziv());
-                System.out.println(ocena.getBrojDolazakaNaPredavanja());
-                System.out.println(studentDTO.getBrojDolazaka());
                 if(ocena.getSmerPredmet().equals(smerPredmet)){
                     ocena.setBrojDolazakaNaPredavanja(studentDTO.getBrojDolazaka());
                     ocenaService.save(ocena);
@@ -376,10 +343,7 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
                 }
             }
 
-
         }
-        System.out.println("**DOLASCI**");
-
 
     }
 
@@ -406,9 +370,13 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
         smerPredmet.setSemestar(smerPredmetDTO.getSemestar());
         smerPredmet.setSifraStudijskogPrograma(smerPredmetDTO.getSifraStudijskogPrograma());
         smerPredmet.setBrojPredavanjaUGodini(smerPredmetDTO.getBrojPredavanjaUGodini());
-        Profesor profesor = profesorService.findProfesor(smerPredmetDTO.getProfesor().getId());
-        smerPredmet.setProfesor(profesor);
+        smerPredmet.setBrojESBPBodova(smerPredmetDTO.getBrojESBPBodova());
+        smerPredmet.getProfesori().removeAll(smerPredmet.getProfesori());
+        for(ProfesorDTO profesorDTO : smerPredmetDTO.getProfesori()){
+            Profesor profesor = profesorService.findProfesor(profesorDTO.getId());
+            smerPredmet.getProfesori().add(profesor);
 
+        }
         smerPredmetRepository.save(smerPredmet);
         return smerPredmetDTO;
     }
@@ -445,6 +413,16 @@ public class SmerPredmetServiceImpl implements SmerPredmetService {
             }
         }
         
+    }
+
+    @Override
+    public ArrayList<ProfesorDTO> getProfesori(Long id) {
+        SmerPredmet smerPredmet = smerPredmetRepository.getOne(id);
+        ArrayList<ProfesorDTO> profesorDTOS = new ArrayList<>();
+        for(Profesor profesor: smerPredmet.getProfesori()){
+            profesorDTOS.add(new ProfesorDTO(profesor));
+        }
+        return  profesorDTOS;
     }
 
 }

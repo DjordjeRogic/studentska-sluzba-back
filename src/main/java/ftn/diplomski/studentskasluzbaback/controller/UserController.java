@@ -23,10 +23,8 @@ public class UserController {
 
     @GetMapping("/currentUser")
     public ResponseEntity<?> user() {
-        System.out.println("Trenutni user");
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
-        System.out.println(email);
         User user = this.userService.getUserByEmail(email);
         CurrentUser currentUserDto = new CurrentUser(user);
         return new ResponseEntity<>(currentUserDto, HttpStatus.OK);

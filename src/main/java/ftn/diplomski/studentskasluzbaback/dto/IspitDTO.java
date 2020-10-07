@@ -17,6 +17,8 @@ public class IspitDTO {
 
     private String mestoOdrzavanja;
 
+    private ProfesorDTO profesor;
+
     private Long programId;
 
     private String vremeOdrzavanja;
@@ -24,20 +26,18 @@ public class IspitDTO {
     public IspitDTO() {
     }
 
-
-    public IspitDTO(Long id, String rok, String datum, String mestoOdrzavanja, Long programId, String vremeOdrzavanja) {
+    public IspitDTO(Long id, String rok, String datum, String mestoOdrzavanja, ProfesorDTO profesor, Long programId, String vremeOdrzavanja) {
         this.id = id;
         this.rok = rok;
         this.datum = datum;
         this.mestoOdrzavanja = mestoOdrzavanja;
+        this.profesor = profesor;
         this.programId = programId;
-        this.vremeOdrzavanja=vremeOdrzavanja;
+        this.vremeOdrzavanja = vremeOdrzavanja;
     }
 
     public IspitDTO(Ispit ispit) {
         this.id = ispit.getId();
-        System.out.println(ispit.getRok().getFieldDescription());
-        System.out.println(ispit.getRok());
         this.rok = ispit.getRok().getFieldDescription();
         this.datum = ispit.getDatum().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.mestoOdrzavanja = ispit.getMestoOdrzavanja();
@@ -46,6 +46,9 @@ public class IspitDTO {
             this.vremeOdrzavanja = ispit.getVremeOdrzavanja().format(DateTimeFormatter.ofPattern("HH:mm"));
         }else{
             this.vremeOdrzavanja="";
+        }
+        if(ispit.getProfesor() != null) {
+            this.profesor = new ProfesorDTO(ispit.getProfesor());
         }
     }
     public Long getId() {
@@ -94,5 +97,13 @@ public class IspitDTO {
 
     public void setVremeOdrzavanja(String vremeOdrzavanja) {
         this.vremeOdrzavanja = vremeOdrzavanja;
+    }
+
+    public ProfesorDTO getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(ProfesorDTO profesor) {
+        this.profesor = profesor;
     }
 }

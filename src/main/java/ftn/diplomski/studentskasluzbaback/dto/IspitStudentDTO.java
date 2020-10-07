@@ -36,7 +36,7 @@ public class IspitStudentDTO {
             this.vremeOdrzavanja="";
         }
 
-        if(ispit.getDatum().isAfter(LocalDate.now().minusDays(3))) {
+        if(ispit.getDatum().isAfter(LocalDate.now().plusDays(3))) {
             this.odjava = true;
         }
         else {

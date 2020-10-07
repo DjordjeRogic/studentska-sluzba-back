@@ -23,4 +23,5 @@ public interface ProfesorService {
     ArrayList<SmerPredmetDTO> getPredmetiOdProfesora();
     ProfesorDTO getProfesor(Long id);
     String checkUpdateProfesor(ProfesorDTO profesorDTO);
+    Profesor save(Profesor profesor);
 }
