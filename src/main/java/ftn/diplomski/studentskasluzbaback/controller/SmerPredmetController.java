@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,7 @@ public class SmerPredmetController {
     @Autowired
     private IspitService ispitService;
 
+    @PreAuthorize("hasAuthority('create_smerPredmet')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postStudijskiProgram(@RequestBody SmerPredmetDTO smerPredmetDTO) {
         if(smerPredmetService.checkNewSmerPredmet(smerPredmetDTO) != null){
@@ -36,16 +38,19 @@ public class SmerPredmetController {
         return new ResponseEntity<>(smerPredmetDTO1, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_smerPredmet')")
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProgram(@PathVariable("id")Long id) {
         return new ResponseEntity<>(smerPredmetService.getOne(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_smerPredmets_profesors')")
     @GetMapping(value = "/{id}/profesori",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProfesoriSaPrograma(@PathVariable("id")Long id) {
         return new ResponseEntity<>(smerPredmetService.getProfesori(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('update_smerPredmets')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateStudijskiProgram(@RequestBody SmerPredmetDTO smerPredmetDTO) {
         System.out.println(smerPredmetDTO.getBrojESBPBodova());
@@ -56,6 +61,7 @@ public class SmerPredmetController {
         return new ResponseEntity<>(smerPredmetDTO1, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('delete_smerPredmets')")
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteStudijskiProgram(@PathVariable("id")Long id) {
         if(smerPredmetService.checkDelete(id) != null){
@@ -65,6 +71,7 @@ public class SmerPredmetController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('delete_ispit')")
     @DeleteMapping(value = "/{id}/ispit/{id_ispita}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> removeIspitPrograma(@PathVariable("id")Long id,@PathVariable("id_ispita")Long id_ispita) {
         if(ispitService.checkRemoveIspti(id_ispita) != null){
@@ -75,26 +82,31 @@ public class SmerPredmetController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_smerPredmets_ispits')")
     @GetMapping(value = "/{id}/ispit",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getIspitiStudjiskogPrograma(@PathVariable("id")Long id) {
         return new ResponseEntity<>(smerPredmetService.getIspiti(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_smerPredmets_student_dolasci')")
     @GetMapping(value = "/{id}/student/dolasci",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getStudentiStudjiskogPrograma(@PathVariable("id")Long id) {
         return new ResponseEntity<>(smerPredmetService.getStudentiDolasci(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('download_smerPredmets_student_dolasci')")
     @GetMapping(value="/{id}/student/dolasci/download",produces ="application/vnd.ms-excel")
     public ResponseEntity<?> studentiKojiSuPrijaviliIspitDownload(@PathVariable("id")Long id) throws IOException {
         return new ResponseEntity<>(smerPredmetService.downloadStudenteZaDolaske(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('upload_smerPredmets_student_dolasci')")
     @PostMapping(value="/{id}/student/dolasci/upload")
     public ResponseEntity<?> studentiKojiSuPrijaviliIspitUpload(@PathVariable("id")Long id,@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(smerPredmetService.uploadStudenteZaDolaske(id,file), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('update_smerPredmets_student_dolasci')")
     @PutMapping(value = "{id}/dolasci", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postIspit(@PathVariable("id")Long id, @RequestBody ArrayList<StudentDolasciDTO> studentDolasciDTOS) {
         smerPredmetService.unesiDolaske(id,studentDolasciDTOS);

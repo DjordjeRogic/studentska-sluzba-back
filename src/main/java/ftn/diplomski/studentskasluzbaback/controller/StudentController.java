@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,30 +31,37 @@ public class StudentController {
     @Autowired
     private SkolskaGodinaService skolskaGodinaService;
 
+    @PreAuthorize("hasAuthority('read_all_students')")
     @GetMapping(value = "/page/{page}/size/{size}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllStudenti(@PathVariable("page")int page,@PathVariable("size")int size) {
         return new ResponseEntity<>(studentService.getAllStudentsPage(page,size), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('read_all_students')")
     @GetMapping(value = "/{name}/{surname}/{email}/{brojIndexa}/page/{page}/size/{size}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> searchStudenti(@PathVariable("name")String name,@PathVariable("surname")String surname,@PathVariable("email")String email,@PathVariable("brojIndexa")String brojIndexa,@PathVariable("page")int page,@PathVariable("size")int size) {
         return new ResponseEntity<>(studentService.searchStudentsPagable(name,surname,email,brojIndexa,page,size), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_all_students')")
     @GetMapping(value = "/{name}/{surname}/{email}/{brojIndexa}/size",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> searchSize(@PathVariable("name")String name,@PathVariable("surname")String surname,@PathVariable("email")String email,@PathVariable("brojIndexa")String brojIndexa) {
         return new ResponseEntity<>(studentService.searchStudentsAll(name,surname,email,brojIndexa).size(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_all_students')")
     @GetMapping(value = "/size",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getStudentSize() {
         return new ResponseEntity<>(studentService.getAllStudents().size(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_student')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getStudent(@PathVariable("id")Long id) {
         return new ResponseEntity<>(new StudentDTO(studentService.findStudent(id)), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('create_student')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postStudent(@RequestBody StudentDTO studentDTO) {
         String checkMessage = studentService.checkNewStudent(studentDTO);
@@ -63,6 +71,7 @@ public class StudentController {
         return new ResponseEntity<>(studentService.saveNewStudent(studentDTO), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('update_student')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>updateStudent(@RequestBody StudentDTO studentDTO) {
         String checkMessage = studentService.checkUpdateStudent(studentDTO);
@@ -73,18 +82,21 @@ public class StudentController {
         return new ResponseEntity<>(studentService.updateStudent(studentDTO), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_students_current_ispits')")
     @GetMapping(value = "/ulogovan/predmeti/trenutniIspiti",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTrenutniIspitiSmera() {
         ArrayList<IspitStudentDTO> ret = studentService.getTrenutneIspiteOdUlogvanog();
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('read_students_added_ispits')")
     @GetMapping(value = "/ispit/prijavljen",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPrijavljeniIspiti() {
         ArrayList<IspitStudentDTO> ret = studentService.getPrijavljeniIsptiOdStudenta();
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasAuthority('update_students_ispits')")
     @PutMapping(value = "/ispit/prijavi",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> prijaviIspit(@RequestBody PrijavaIspitaDTO prijavaIspitaDTO) {
         for(IspitStudentDTO ispitStudentDTO :prijavaIspitaDTO.getIspiti()) {
@@ -93,6 +105,7 @@ public class StudentController {
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('update_students_ispits')")
     @PutMapping(value = "/ispit/odjavi",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> odjaviIspit(@RequestBody PrijavaIspitaDTO prijavaIspitaDTO) {
         for(IspitStudentDTO ispitStudentDTO :prijavaIspitaDTO.getIspiti()) {
@@ -101,6 +114,7 @@ public class StudentController {
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('check_student_smester')")
     @GetMapping(value = "/semestar/overen",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> checkOverenSemestar() {
 
@@ -133,6 +147,7 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('update_student_smester')")
     @PutMapping(value = "/semestar/overi",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> overiSemestar() {
 
@@ -142,6 +157,7 @@ public class StudentController {
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('read_ocena')")
     @GetMapping(value = "/ocena",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getOcene() {
         ArrayList<OcenaDTO> ret = studentService.getOceneUlogovanogStudenta();

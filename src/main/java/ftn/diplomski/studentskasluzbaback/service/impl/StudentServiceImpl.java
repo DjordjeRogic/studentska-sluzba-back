@@ -49,6 +49,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private RoleService roleService;
+
     @Override
     public ArrayList<StudentDTO> getAllStudents() {
 
@@ -65,6 +68,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO saveNewStudent(StudentDTO studentDTO) {
 
+        //TODO DODELI ROLU
         Smer smer = smerService.findSmer(studentDTO.getSmer().getId());
 
         Student student = new Student();
@@ -77,7 +81,8 @@ public class StudentServiceImpl implements StudentService {
         student.setEnabled(true);
         student.setSemestar(1);
         String password = generateRandomPassword();
-
+        List<Role> role = roleService.findByName("ROLE_STUDENT");
+        student.setRoles(role);
 
         // work factor of bcrypt
         int strength = 10;
@@ -88,8 +93,14 @@ public class StudentServiceImpl implements StudentService {
         SkolskaGodina skolskaGodina = skolskaGodinaService.getTrenutnaSkolskaGodina();
 
         int brojStudenta = getStudentePoSmeruiGodini(smer,skolskaGodina).size()+1;
+        String brIndexa;
+        if(brojStudenta <10){
+            brIndexa = smer.getSkracenica().toLowerCase()+"0" +brojStudenta +"-"+skolskaGodina.getKrajGodine().getYear();
+        }else{
+            brIndexa = smer.getSkracenica().toLowerCase() +brojStudenta +"-"+skolskaGodina.getKrajGodine().getYear();
+        }
 
-        String brIndexa = smer.getSkracenica().toLowerCase() +brojStudenta +"-"+skolskaGodina.getKrajGodine().getYear();
+
 
         student.setGodinaUpisa(skolskaGodina);
         student.setBrojIndexa(brIndexa);

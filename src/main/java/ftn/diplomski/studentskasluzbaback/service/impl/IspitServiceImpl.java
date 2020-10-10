@@ -60,6 +60,8 @@ public class IspitServiceImpl implements IspitService {
         if(!ispitDTO.getVremeOdrzavanja().isEmpty())
             ispit.setVremeOdrzavanja(LocalTime.parse(ispitDTO.getVremeOdrzavanja()));
 
+        Profesor profesor = profesorService.findProfesor(ispitDTO.getProfesor().getId());
+        ispit.setProfesor(profesor);
         Ispit saved = ispitRepository.save(ispit);
         ispitDTO.setId(saved.getId());
 
@@ -115,12 +117,12 @@ public class IspitServiceImpl implements IspitService {
             }
         }
         if(ispitDTO.getRok().equals(IspitniRok.SEP.toString()) ){
-            if(localDate.getMonthValue() >7  || localDate.getMonthValue() <10 ){
+            if(localDate.getMonthValue() <8  || localDate.getMonthValue() >9 ){
                 return "Ispit u septembarskom roku se moze zakazati samo u avgustu ili septembru";
             }
         }
         if(ispitDTO.getRok().equals(IspitniRok.OKT.toString()) ){
-            if(localDate.getMonthValue() >8  || localDate.getMonthValue() <10 ){
+            if(localDate.getMonthValue() <9  || localDate.getMonthValue() >9 ){
                 return "Ispit u oktobarskom roku se moze zakazati samo u septembru";
             }
         }

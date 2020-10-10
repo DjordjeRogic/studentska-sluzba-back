@@ -3,12 +3,10 @@ package ftn.diplomski.studentskasluzbaback.service.impl;
 import ftn.diplomski.studentskasluzbaback.dto.IspitProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.dto.ProfesorDTO;
 import ftn.diplomski.studentskasluzbaback.dto.SmerPredmetDTO;
-import ftn.diplomski.studentskasluzbaback.model.Ispit;
-import ftn.diplomski.studentskasluzbaback.model.Profesor;
-import ftn.diplomski.studentskasluzbaback.model.SmerPredmet;
-import ftn.diplomski.studentskasluzbaback.model.Student;
+import ftn.diplomski.studentskasluzbaback.model.*;
 import ftn.diplomski.studentskasluzbaback.repository.ProfesorRepository;
 import ftn.diplomski.studentskasluzbaback.service.ProfesorService;
+import ftn.diplomski.studentskasluzbaback.service.RoleService;
 import ftn.diplomski.studentskasluzbaback.service.SmerPredmetService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,9 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Autowired
     private SmerPredmetService smerPredmetService;
 
+    @Autowired
+    private RoleService roleService;
+
     @Override
     public ArrayList<ProfesorDTO> getAllProfesors() {
         List<Profesor> profesorList =  profesorRepository.findAll();
@@ -56,7 +57,8 @@ public class ProfesorServiceImpl implements ProfesorService {
         profesor.setSifraProfesora(profesorDTO.getSifraProfesora());
         profesor.setRole("ROLE_PROFESOR");
 
-
+        List<Role> role = roleService.findByName("ROLE_PROFESOR");
+        profesor.setRoles(role);
         String password = generateRandomPassword();
 
         profesorDTO.setSifra(password);
@@ -201,6 +203,16 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Override
     public String checkUpdateProfesor(ProfesorDTO profesorDTO) {
+
+        Profesor profesor = profesorRepository.findProfesorByEmail(profesorDTO.getEmail());
+        if(profesor != null && !profesor.getId().equals(profesorDTO.getId())){
+            return "Profesor sa tim emailom vec postoji!";
+        }
+
+        profesor = profesorRepository.findProfesorBySifraProfesora(profesorDTO.getSifraProfesora());
+        if(profesor != null && !profesor.getId().equals(profesorDTO.getId())){
+            return "Profesor sa tom sifrom vec postoji!";
+        }
         return null;
     }
 

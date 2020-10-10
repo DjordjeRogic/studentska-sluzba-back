@@ -21,6 +21,7 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
+    @PreAuthorize("hasAuthority('read_user_info')")
     @GetMapping("/currentUser")
     public ResponseEntity<?> user() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -30,6 +31,7 @@ public class UserController {
         return new ResponseEntity<>(currentUserDto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('update_password')")
     @PutMapping(value = "/{id}/sifra")
     public ResponseEntity<?> changePassword(@PathVariable("id") Long id,@RequestBody SifraDTO sifraDTO) {
         if(!sifraDTO.getNovaSifra().equals(sifraDTO.getPotvrda())){

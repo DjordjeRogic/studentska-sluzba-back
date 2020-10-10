@@ -2,8 +2,131 @@ insert into role (name) values ('ROLE_ADMIN');
 insert into role (name) values ('ROLE_PROFESOR');
 insert into role (name) values ('ROLE_STUDENT');
 
-insert into permission (name) values ('readProfesor');
+insert into permission (name) values ('create_ispit'); --a
+insert into permission (name) values ('update_ispit'); --a
+insert into permission (name) values ('delete_ispit'); --a
+insert into permission (name) values ('read_ispit'); --a p
+insert into permission (name) values ('read_all_predmets'); --a
+insert into permission (name) values ('create_predmet'); --a
+insert into permission (name) values ('update_predmet'); --a
+insert into permission (name) values ('delete_predmet'); --a
+insert into permission (name) values ('read_predmet_not_beloning_to_smer'); --a
+insert into permission (name) values ('read_all_profesors'); --a
+
+insert into permission (name) values ('read_profesor'); --a p
+insert into permission (name) values ('create_profesor'); --a
+insert into permission (name) values ('delete_profesor'); --a
+insert into permission (name) values ('update_profesor'); --a
+insert into permission (name) values ('read_all_smers'); --a
+insert into permission (name) values ('create_smer'); --a
+insert into permission (name) values ('delete_smer'); --a
+insert into permission (name) values ('update_smer'); --a
+insert into permission (name) values ('read_smer'); --a p
+insert into permission (name) values ('read_smers_predmets'); --a p
+
+insert into permission (name) values ('create_smerPredmet'); --a
+insert into permission (name) values ('read_smerPredmet');--a
+insert into permission (name) values ('read_smerPredmets_profesors'); --a
+insert into permission (name) values ('update_smerPredmets'); --a
+insert into permission (name) values ('delete_smerPredmets'); --a
+insert into permission (name) values ('read_all_students'); --a
+insert into permission (name) values ('read_student'); --a s
+insert into permission (name) values ('create_student'); --a
+insert into permission (name) values ('update_student'); --a
+insert into permission (name) values ('read_user_info'); --a p s
+
+insert into permission (name) values ('update_password'); --a p s
+insert into permission (name) values ('read_students_of_ispit'); --p
+insert into permission (name) values ('read_ispit');--p
+insert into permission (name) values ('download_students_of_ispit');--p
+insert into permission (name) values ('upload_results');--p
+insert into permission (name) values ('update_results');--p
+insert into permission (name) values ('read_profesors_ispits');--p
+insert into permission (name) values ('read_profesors_finished_ispits');--p
+insert into permission (name) values ('read_profesors_predmets');--p
+insert into permission (name) values ('read_smers_current_ispits'); --p s
+
+insert into permission (name) values ('read_smerPredmets_student_dolasci');--p
+insert into permission (name) values ('download_smerPredmets_student_dolasci');--p
+insert into permission (name) values ('update_smerPredmets_student_dolasci');--p
+insert into permission (name) values ('upload_smerPredmets_student_dolasci');--p
+insert into permission (name) values ('read_students_current_ispits');--s
+insert into permission (name) values ('read_students_added_ispits');--s
+insert into permission (name) values ('update_students_ispits');--s
+insert into permission (name) values ('check_student_smester');--s
+insert into permission (name) values ('update_student_smester');--s
+insert into permission (name) values ('read_ocena');--s
+insert into permission (name) values ('read_smerPredmets_ispits');--a p s
+
 insert into role_permissions (role_id, permission_id) values (1, 1);
+insert into role_permissions (role_id, permission_id) values (1, 2);
+insert into role_permissions (role_id, permission_id) values (1, 3);
+insert into role_permissions (role_id, permission_id) values (1, 4);
+insert into role_permissions (role_id, permission_id) values (2, 4);
+insert into role_permissions (role_id, permission_id) values (1, 5);
+insert into role_permissions (role_id, permission_id) values (1, 6);
+insert into role_permissions (role_id, permission_id) values (1, 7);
+insert into role_permissions (role_id, permission_id) values (1, 8);
+insert into role_permissions (role_id, permission_id) values (1, 9);
+insert into role_permissions (role_id, permission_id) values (1, 10);
+
+insert into role_permissions (role_id, permission_id) values (1, 11);
+insert into role_permissions (role_id, permission_id) values (2, 11);
+insert into role_permissions (role_id, permission_id) values (1, 12);
+insert into role_permissions (role_id, permission_id) values (1, 13);
+insert into role_permissions (role_id, permission_id) values (1, 14);
+insert into role_permissions (role_id, permission_id) values (1, 15);
+insert into role_permissions (role_id, permission_id) values (1, 16);
+insert into role_permissions (role_id, permission_id) values (1, 17);
+insert into role_permissions (role_id, permission_id) values (1, 18);
+insert into role_permissions (role_id, permission_id) values (1, 19);
+insert into role_permissions (role_id, permission_id) values (2, 19);
+insert into role_permissions (role_id, permission_id) values (1, 20);
+insert into role_permissions (role_id, permission_id) values (2, 20);
+
+insert into role_permissions (role_id, permission_id) values (1, 21);
+insert into role_permissions (role_id, permission_id) values (1, 22);
+insert into role_permissions (role_id, permission_id) values (1, 23);
+insert into role_permissions (role_id, permission_id) values (1, 24);
+insert into role_permissions (role_id, permission_id) values (1, 25);
+insert into role_permissions (role_id, permission_id) values (1, 26);
+insert into role_permissions (role_id, permission_id) values (1, 27);
+insert into role_permissions (role_id, permission_id) values (3, 27);
+insert into role_permissions (role_id, permission_id) values (1, 28);
+insert into role_permissions (role_id, permission_id) values (1, 29);
+insert into role_permissions (role_id, permission_id) values (1, 30);
+insert into role_permissions (role_id, permission_id) values (2, 30);
+insert into role_permissions (role_id, permission_id) values (3, 30);
+
+insert into role_permissions (role_id, permission_id) values (1, 31);
+insert into role_permissions (role_id, permission_id) values (2, 31);
+insert into role_permissions (role_id, permission_id) values (3, 31);
+insert into role_permissions (role_id, permission_id) values (2, 32);
+insert into role_permissions (role_id, permission_id) values (2, 33);
+insert into role_permissions (role_id, permission_id) values (2, 34);
+insert into role_permissions (role_id, permission_id) values (2, 35);
+insert into role_permissions (role_id, permission_id) values (2, 36);
+insert into role_permissions (role_id, permission_id) values (2, 37);
+insert into role_permissions (role_id, permission_id) values (2, 38);
+insert into role_permissions (role_id, permission_id) values (2, 39);
+insert into role_permissions (role_id, permission_id) values (2, 40);
+insert into role_permissions (role_id, permission_id) values (3, 40);
+
+
+insert into role_permissions (role_id, permission_id) values (2, 41);
+insert into role_permissions (role_id, permission_id) values (2, 42);
+insert into role_permissions (role_id, permission_id) values (2, 43);
+insert into role_permissions (role_id, permission_id) values (2, 44);
+insert into role_permissions (role_id, permission_id) values (3, 45);
+insert into role_permissions (role_id, permission_id) values (3, 46);
+insert into role_permissions (role_id, permission_id) values (3, 47);
+insert into role_permissions (role_id, permission_id) values (3, 48);
+insert into role_permissions (role_id, permission_id) values (3, 49);
+insert into role_permissions (role_id, permission_id) values (3, 50);
+
+insert into role_permissions (role_id, permission_id) values (1, 51);
+insert into role_permissions (role_id, permission_id) values (2, 51);
+insert into role_permissions (role_id, permission_id) values (3, 51);
 
 --ADMINISTRATOR
 insert into user (name, surname, email, password, enabled, type, role ) values ('Admin', 'Admin', 'admin@uns.ac.rs', '$2a$10$aMBAEXjwqcavdNT373EM7.hlk2MWp1SNYCZ5NWk/Dytyf/xPsI02a', true, 'ADMIN', 'ROLE_ADMIN');
@@ -15,8 +138,9 @@ insert into user (name, surname, email, password, enabled, type, role,sifra_prof
 
 ----
 insert into user_roles (user_id, role_id) values (1, 1);
-insert into user_roles (user_id, role_id) values (2, 1);
-insert into user_roles (user_id, role_id) values (3, 1);
+insert into user_roles (user_id, role_id) values (2, 2);
+insert into user_roles (user_id, role_id) values (3, 2);
+insert into user_roles (user_id, role_id) values (4, 2);
 
 insert into smer (naziv, skracenica, trajanjeusemestrima, obrazovno_polje, naziv_diplome) values ('Racunarstvo i automatika', 'RA', 8, 0,'Diplomiranji Inzenjer Elektrotehnike i Racunarstva');
 
@@ -169,79 +293,79 @@ insert into skolska_godina(pocetak_godine,kraj_godine,pocetak_overe_letnjeg,kraj
 --ISPITI--
 --1 SEMESTAR
 --ANALIZA----
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-02-01',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-13',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-10',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-06-23',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-14',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-26',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-05',1,1,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-09-19',1,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-02-01',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-13',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-10',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-06-23',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-14',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-26',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-05',2,1,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-09-19',2,1,false,2);
 --ALGEBRA----
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-02-06',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-21',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-13',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-06',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-20',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-29',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-11',1,2,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-09-25',1,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-02-06',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-21',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-13',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-06',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-20',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-29',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-11',2,2,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-09-25',2,2,false,3);
 --ENGLESKI OSNOVNI----
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-01-27',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-08',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-08',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-08',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-22',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-24',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-08-31',1,3,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-09-14',1,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-01-27',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-08',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-08',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-08',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-22',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-24',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-08-31',2,3,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-09-14',2,3,false,4);
 --PJISP----
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-01-28',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-09',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-08',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-09',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-23',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-24',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-01',1,4,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-09-15',1,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-01-28',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-09',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-08',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-09',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-23',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-24',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-01',2,4,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-09-15',2,4,false,2);
 
 --2SEMESTAR
 --FIZIKA
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-01-30',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-11',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-09',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-11',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-25',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-25',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-03',1,5,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-09-17',1,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-01-30',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-11',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-09',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-11',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-25',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-25',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-03',2,5,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-09-17',2,5,false,3);
 --OET
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-01-07',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-22',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-13',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-07',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-21',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-29',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-12',1,6,false,4);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-10-05',1,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-01-07',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-22',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-13',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-07',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-21',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-29',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-12',2,6,false,4);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-10-05',2,6,false,4);
 --ARHITEKTURA
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-02-05',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-20',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-12',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-04',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-18',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-28',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-10',1,7,false,2);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-10-06',1,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-02-05',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-20',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-12',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-04',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-18',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-28',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-10',2,7,false,2);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-10-06',2,7,false,2);
 --ENGLESKI SREDNJI
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2020-02-04',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2020-02-19',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2020-06-12',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2020-07-03',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2020-07-17',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2020-08-28',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2020-09-09',1,8,false,3);
-insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2020-09-23',1,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (0,'2021-02-04',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (1,'2021-02-19',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (2,'2021-06-12',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (3,'2021-07-03',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (4,'2021-07-17',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (5,'2021-08-28',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (6,'2021-09-09',2,8,false,3);
+insert into ispit(rok,datum,skolska_godina_id,smer_predmet_id,uneseni_rezultati,profesor_id) values (7,'2021-09-23',2,8,false,3);
 
 
 
@@ -258,16 +382,37 @@ insert into user (name, surname, email, password, enabled, type, role,broj_index
 insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Mirko', 'Mirkovic', 'mirko.mirkovic@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra08-2019',2,1,1);
 insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Katarina', 'Katic', 'katarina.katic@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra09-2019',2,1,1);
 
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Djordje', 'Rogic', 'rogic.djordje1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra10-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Petar', 'Petrovic', 'petar.petrovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra11-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Milos', 'Milosevic', 'milos.milosevic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra12-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Marko', 'Markovic', 'marko.markovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra13-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Milica', 'Milicevic', 'milica.milicevic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra14-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Jovana', 'Jovanovic', 'jovana.jovanovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra15-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Jovan', 'Jovanovic', 'jovan.jovanovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra16-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Mirko', 'Mirkovic', 'mirko.mirkovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra17-2019',2,1,1);
-insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Katarina', 'Katic', 'katarina.katic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra18-2019',2,1,1);
+--studenti koji nemaju kreirane ocene
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Djordje', 'Rogic', 'rogic.djordje1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra10-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Petar', 'Petrovic', 'petar.petrovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra11-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Milos', 'Milosevic', 'milos.milosevic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra12-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Marko', 'Markovic', 'marko.markovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra13-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Milica', 'Milicevic', 'milica.milicevic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra14-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Jovana', 'Jovanovic', 'jovana.jovanovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra15-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Jovan', 'Jovanovic', 'jovan.jovanovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra16-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Mirko', 'Mirkovic', 'mirko.mirkovic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra17-2019',2,1,1);
+--insert into user (name, surname, email, password, enabled, type, role,broj_indexa,semestar,smer_id,godina_upisa_id) values ('Katarina', 'Katic', 'katarina.katic1@uns.ac.rs', '$2a$10$noSRMxRJjDHt2Ky.E1QHYupSHa8tTZ0fyVXvWE5o73PKdlrLgSyMG', true, 'STUDENT', 'ROLE_STUDENT','ra18-2019',2,1,1);
 
+
+insert into user_roles (user_id, role_id) values (5, 3);
+insert into user_roles (user_id, role_id) values (6, 3);
+insert into user_roles (user_id, role_id) values (7, 3);
+insert into user_roles (user_id, role_id) values (8, 3);
+insert into user_roles (user_id, role_id) values (9, 3);
+insert into user_roles (user_id, role_id) values (10, 3);
+insert into user_roles (user_id, role_id) values (11, 3);
+insert into user_roles (user_id, role_id) values (12, 3);
+insert into user_roles (user_id, role_id) values (13, 3);
+
+--insert into user_roles (user_id, role_id) values (14, 3);
+--insert into user_roles (user_id, role_id) values (15, 3);
+--insert into user_roles (user_id, role_id) values (16, 3);
+--insert into user_roles (user_id, role_id) values (17, 3);
+--insert into user_roles (user_id, role_id) values (18, 3);
+--insert into user_roles (user_id, role_id) values (19, 3);
+--insert into user_roles (user_id, role_id) values (20, 3);
+--insert into user_roles (user_id, role_id) values (21, 3);
+--insert into user_roles (user_id, role_id) values (22, 3);
 
 insert into ispit_student_prijavio(student_id,ispit_id) values (5,47);
 
